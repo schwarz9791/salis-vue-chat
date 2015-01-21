@@ -1,0 +1,18 @@
+html, body {
+  height: 100%;
+}
+body {
+  padding-top: 70px;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .navbar-fixed-bottom .navbar-form {
+    margin-top: 0;
+    margin-bottom: 0;
+    border: none;
+  }
+}
