@@ -47,7 +47,6 @@ var app = new Vue({
       switch (event.verb) {
         case 'created': // モデルに新たなデータが追加された
           _this.count++;
-          if (_this.newMessage) _this.newMessage.body = '';
           _this.messages.unshift(event.data);
           break;
         case 'destroyed': // モデルからデータが削除された
@@ -69,6 +68,7 @@ var app = new Vue({
         if (res.error) {
           return console.error(res.error);
         }
+        _this.newMessage.body = '';
 
       });
     },
