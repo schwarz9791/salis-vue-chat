@@ -19,6 +19,13 @@ module.exports = {
         return res.redirect("/chat");
       });
     });
+  },
+
+  current: function(req, res) {
+      User.findOne(req.session.passport.user).exec(function(err, user){
+          if (err) res.json({error: "don't find current user"});
+          res.json(user);
+      });
   }
 };
 

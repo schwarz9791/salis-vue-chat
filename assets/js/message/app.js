@@ -12,6 +12,14 @@ var app = new Vue({
     })
   },
 
+  computed: {
+    is_last: function() {
+      if (this.messages.length >= this.count) return true;
+      loading = false;
+      return false;
+    }
+  },
+
   filters: {
     fromNow: function(time) {
       return moment(time).fromNow();
@@ -27,7 +35,7 @@ var app = new Vue({
       _this.messages = res;
       if (_this.messages.length == _this.count) _this.is_last = true;
     });
-    io.socket.get('/auth/current', function (res) {
+    io.socket.get('/user/current', function (res) {
       _this.current_user = res;
     });
 
@@ -37,21 +45,15 @@ var app = new Vue({
 
       // event.verb が変更の種類を表す
       switch (event.verb) {
-        case 'created': // created: モデルに新たなデータが追加された
-          // console.log(JSON.stringify(event.data));
+        case 'created': // モデルに新たなデータが追加された
           _this.count++;
-          _this.newMessage.body = '';
-          _this.messages.unshift(event.data);
-          _this.$emit('message:created', event.data);
+          if (_this.newMessage) _this.newMessage.body = '';
+          _this.messages.unshift(message);
           break;
-        case 'destroyed':
-          _this.count--;
-          _this.$emit('message:destroyed', event.data);
+        case 'destroyed': // モデルからデータが削除された
+            _this.count--;
           break;
-        default: 
-          // io.socket.get('/message', function (res) {
-          //   _this.messages = res;
-          // });
+        // default: 
       }
     });
   },
@@ -68,12 +70,10 @@ var app = new Vue({
           return console.error(res.error);
         }
 
-        // _this.$emit('message:created', res);
       });
     },
 
     remove: function(message) {
-      // event.preventDefault(); // submit 時のページ遷移を無効にする
 
       var _this = this;
       _this.messages.splice(message.$index, 1)[0];
@@ -83,7 +83,6 @@ var app = new Vue({
         if (res.error) {
           return console.error(res.error);
         }
-        // _this.$emit('message:deleted', res);
       });
     },
 
@@ -99,12 +98,9 @@ var app = new Vue({
 
       io.socket.get('/message?p=' + (p + additional), function (res) {
         _this.page = p + additional;
-        for (var i in res) {
-          _this.messages.push(res[i]);
-        }
-        // console.log("view:" + _this.messages.length + " server:" + _this.count);
-        if (_this.messages.length == _this.count) _this.is_last = true;
-        loading = false;
+        res.forEach(function(message) {
+          _this.messages.push(message);
+        });
       });
 
     }

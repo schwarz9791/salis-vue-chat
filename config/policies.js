@@ -38,6 +38,7 @@ module.exports.policies = {
   },
 
   user: {
+    'current': true,
     'create': true,
     'destroy': 'sessionAuth'
   }

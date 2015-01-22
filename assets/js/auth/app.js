@@ -5,11 +5,11 @@ app = new Vue({
     username: '',
     password: '',
     confirm: '',
-    hasError: false
+    has_error: false
   },
 
   computed: {
-    hasError: function() {
+    has_error: function() {
       if (this.password == this.confirm && this.password != '') return false
         return true
     }

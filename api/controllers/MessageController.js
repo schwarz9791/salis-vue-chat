@@ -20,6 +20,7 @@ module.exports = {
     .paginate({page: req.query.p, limit: 10})
     .populate('owner')
     .exec(function(err, messages) {
+      if (err) return res.serverError();
       Message.watch(req);
       Message.subscribe(req.socket, messages);
       res.json(messages);
@@ -35,19 +36,13 @@ module.exports = {
 
     User.findOne(req.session.passport.user)
     .exec(function(err, user) {
-      current_user = user;
 
-      if (!current_user) {
-        res.json({error: "don't login"});
-        return;
-      }
+      current_user = user;
+      if (!current_user) return res.forbidden();
       
       Message.create({body: body, owner: current_user})
       .exec(function(err, message) {
-        if (err) {
-          res.json(err);
-          return;
-        };
+        if (err) return res.serverError();
         message.owner = current_user;
         Message.publishCreate(message);
         res.json(message);
@@ -61,7 +56,7 @@ module.exports = {
 
     Message.destroy(req.param('id'))
     .exec(function(err){
-      if (err) console.log("Failed delete message");
+      if (err) return res.serverError();
       Message.publishDestroy(req.param('id'));
     });
   },
@@ -70,7 +65,7 @@ module.exports = {
     Message.count()
     .exec(function(err, count) {
       if (err) res.json(err);
-      res.json(200, {count: count});
+      res.json({count: count});
     });
   }
 
