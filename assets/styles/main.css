@@ -9,6 +9,19 @@ body {
   display: none;
 }
 
+.avatar {
+  background-color: #f0f0f0;
+  color: #999;
+  border-radius: 4px;
+  padding: 2px;
+  text-align: center;
+}
+
+.avatar img {
+  width: 64px;
+  height: 64px;
+}
+
 @media (max-width: 768px) {
   .navbar-fixed-bottom .navbar-form {
     margin-top: 0;

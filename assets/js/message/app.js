@@ -7,6 +7,7 @@ var app = new Vue({
     current_user: [],
     page: 1,
     is_last: false,
+    has_avatar: false,
     count: io.socket.get('/message/count', function (res) {
       app.count = res.count;
     })
@@ -89,6 +90,11 @@ var app = new Vue({
     isOwner: function(id) {
       return this.current_user.id === id;
     },
+    
+    hasAvatar: function(arg) {
+      if (arg) return true;
+      return false;
+    },
 
     more: function(p) {
       var _this = this;
@@ -102,7 +108,6 @@ var app = new Vue({
           _this.messages.push(message);
         });
       });
-
     }
   }
 });

@@ -52,6 +52,11 @@ module.exports.routes = {
     action: 'chat'
   },
 
+  'get /file/:id': {
+    controller: 'file',
+    action: 'get'
+  },
+
   /***************************************************************************
   *                                                                          *
   * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *

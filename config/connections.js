@@ -69,6 +69,11 @@ module.exports.connections = {
     url: process.env.MONGOLAB_URI
   },
 
+  mongoFileDb: {
+    adapter: 'skipper-gridfs',
+    uri: process.env.MONGOLAB_URI
+  },
+
   /***************************************************************************
   *                                                                          *
   * PostgreSQL is another officially supported relational database.          *
@@ -92,9 +97,5 @@ module.exports.connections = {
   * More adapters: https://github.com/balderdashy/sails                      *
   *                                                                          *
   ***************************************************************************/
-  herokuMongoLab: {
-    adapter: 'sails-mongo',
-    url: process.env.MONGOLAB_URI
-  }
   
 };

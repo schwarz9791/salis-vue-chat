@@ -74,7 +74,7 @@ passport.use(new LocalStrategy(
 // ③ express middleware hook
 module.exports = {  
     http: {
-        customMiddleware: function(app){
+        customMiddleware: function(app) {
             // app: express() オブジェクト
             console.log("passport module initialize");
             

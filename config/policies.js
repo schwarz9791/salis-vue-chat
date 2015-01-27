@@ -38,9 +38,14 @@ module.exports.policies = {
   },
 
   user: {
+    '*': true,
     'current': true,
     'create': true,
     'destroy': 'sessionAuth'
+  },
+
+  file: {
+    'get': true
   }
 
   /***************************************************************************

@@ -46,8 +46,10 @@
     <div class="col-sm-8 col-sm-offset-4" style="margin-bottom: 80px;">
       <div class="media" v-repeat="messages" v-cloak track-by="id">
         <a class="media-left" href="#" v-if="!isOwner(owner.id)">
-          <!-- <img src="..." alt="..."> -->
-          <div style="background-color: #f0f0f0; width: 64px; height: 64px; color: #999; text-align: center; padding-top: 10px;">IMAGE<br>{{$index}}</div>
+          <div class="avatar">
+            <img class="avatar" v-if="!hasAvatar(owner.avatar)" src="/images/unknown-avatar.png" alt="avatar">
+            <img class="avatar" v-if="hasAvatar(owner.avatar)" src="/file/{{owner.avatar}}" alt="avatar">
+          </div>
         </a>
         <div class="media-body" style="width:100%;">
           <div class="small text-muted pull-right">{{createdAt | fromNow}}</div>
@@ -55,8 +57,10 @@
           {{body}}
         </div>
         <a class="media-right" href="#" v-if="isOwner(owner.id)">
-          <!-- <img src="..." alt="..."> -->
-          <div style="background-color: #f0f0f0; width: 64px; height: 64px; color: #999; text-align: center; padding-top: 10px;">IMAGE<br>{{$index}}</div>
+          <div class="avatar">
+            <img class="avatar" v-if="!hasAvatar(owner.avatar)" src="/images/unknown-avatar.png" alt="avatar">
+            <img class="avatar" v-if="hasAvatar(owner.avatar)" src="/file/{{owner.avatar}}" alt="avatar">
+          </div>
         </a>
         <div class="small" v-if="isOwner(owner.id)"><a class="text-danger" v-on="click: remove(this)">削除</a></div>
       </div>
