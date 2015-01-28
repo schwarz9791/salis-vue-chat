@@ -48,7 +48,7 @@
         <a class="media-left" href="#" v-if="!isOwner(owner.id)">
           <div class="avatar">
             <img class="avatar" v-if="!hasAvatar(owner.avatar)" src="/images/unknown-avatar.png" alt="avatar">
-            <img class="avatar" v-if="hasAvatar(owner.avatar)" src="/file/{{owner.avatar}}" alt="avatar">
+            <img class="avatar" v-if="hasAvatar(owner.avatar)" v-attr= "src: '/file/' + owner.avatar" alt="avatar">
           </div>
         </a>
         <div class="media-body" style="width:100%;">
@@ -59,7 +59,7 @@
         <a class="media-right" href="#" v-if="isOwner(owner.id)">
           <div class="avatar">
             <img class="avatar" v-if="!hasAvatar(owner.avatar)" src="/images/unknown-avatar.png" alt="avatar">
-            <img class="avatar" v-if="hasAvatar(owner.avatar)" src="/file/{{owner.avatar}}" alt="avatar">
+            <img class="avatar" v-if="hasAvatar(owner.avatar)" v-attr= "src: '/file/' + owner.avatar" alt="avatar">
           </div>
         </a>
         <div class="small" v-if="isOwner(owner.id)"><a class="text-danger" v-on="click: remove(this)">削除</a></div>
