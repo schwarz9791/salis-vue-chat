@@ -1,19 +1,24 @@
 // Uploader utilities and helper methods
 // designed to be relatively generic.
 
-var imagemagick = require('imagemagick-native');
+var gm = require('gm'),
+    imageMagick = gm.subClass({ imageMagick: true });
 var Writable = require('stream').Writable;
 var mongo = require('mongodb'),
-MongoClient = require('mongodb').MongoClient;
+    MongoClient = require('mongodb').MongoClient;
 var Grid = require('gridfs-stream');
 
 // Let's create a custom receiver
+// var blobAdapter = require(sails.config.connections.mongoFileDb.adapter)({
+//   uri: sails.config.connections.mongoFileDb.uri + '.avatar'
+// });
+// var outputReceiver = blobAdapter.receive();
 var receiver = new Writable({ objectMode: true });
 receiver._write = function onFile(file, enc, cb) {
 
   MongoClient.connect(sails.config.connections.mongoFileDb.uri, {native_parser: true}, function(err, db) {
     if (err) return cb(err);
-    
+
     var gfs = Grid(db, mongo);
     var output = gfs.createWriteStream({
       filename: file.fd,
@@ -24,14 +29,16 @@ receiver._write = function onFile(file, enc, cb) {
       } 
     });
 
-    file.pipe(imagemagick.streams.convert({
-      width: 200,
-      height: 200,
-      resizeStyle: 'aspectfill'
-    }))
-    .pipe(output);
-
-    cb();
+    imageMagick(file)
+    .autoOrient()
+    .resize('200', '200', '^')
+    .gravity('Center')
+    .crop('200', '200')
+    .stream('png', function (err, stdout) {
+      if (err) return next(err);
+      stdout.pipe(output);
+      cb();
+    });
 
   });
 };
