@@ -5,10 +5,22 @@
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
+var blobAdapter = require(sails.config.connections.mongoFileDb.adapter)({
+  uri: sails.config.connections.mongoFileDb.uri + '.avatar'
+});
+
 module.exports = {
 
   attributes: {
 
+  },
+
+  remove: function(fd, cb) {
+    blobAdapter.rm(fd, function deleteCB(err) {
+      if (err) return cb(err);
+      return cb();
+    });
   }
+
 };
 

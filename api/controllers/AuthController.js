@@ -51,7 +51,7 @@ module.exports = {
         // ログイン状態解
         req.logout();
         req.session.destroy();
-        res.redirect('/');
+        return res.redirect('/');
     },
 
     /**

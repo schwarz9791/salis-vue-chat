@@ -6,6 +6,15 @@
 */
 var bcrypt = require('bcrypt');
 
+var hashedPassword = function(pass, cb) {
+  bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.hash(pass, salt, function(err, hash) {
+      if (err) return cb(err);
+      return cb(null, hash);
+    });
+  });
+}
+
 module.exports = {  
     attributes: {
       toJSON: function() {
@@ -28,17 +37,34 @@ module.exports = {
     beforeCreate: function(user, cb) {
       delete user._csrf;
       delete user.confirm;
-      
-      bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(user.password, salt, function(err, hash) {
-          if (err) {
-            console.log(err);
-            cb(err);
-          } else {
-            user.password = hash;
-            cb(null, user);
-          }
-        });
+
+      hashedPassword(user.password, function(err, hash) {
+        if (err) return cb(err);
+        user.password = hash;
+        return cb(null, user);
+      });
+    },
+
+    beforeUpdate: function(user, cb) {
+      var pass = user.password;
+      if (user.new_password) pass = user.new_password;
+
+      delete user._csrf;
+      delete user.confirm;
+      delete user.new_password;
+
+      hashedPassword(pass, function(err, hash) {
+        if (err) return cb(err);
+        console.log('Password updated')
+        user.password = hash;
+        return cb(null, user);
+      });
+    },
+
+    checkPassword: function(pass, user, cb) {
+      bcrypt.compare(pass, user.password, function (err, res) {
+        if (!res) return cb({error: 'Invalid password'});
+        return cb();
       });
     }
 };

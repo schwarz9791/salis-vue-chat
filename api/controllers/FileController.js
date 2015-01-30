@@ -14,7 +14,9 @@ module.exports = {
   get: function (req, res) {
     blobAdapter.read(req.params.id, function(err, blob) {
       if (err) return res.badRequest();
-      res.send(blob);
+      var type = req.params.id.split('.')[req.params.id.split('.').length - 1];
+      res.set('Content-Type', 'image/' + type);
+      return res.send(blob);
     });
   }
 

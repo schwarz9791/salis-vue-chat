@@ -5,10 +5,12 @@
         Sails.js + Vue.js Sample
       </a>
       <div class="visible-xs text-right" style="padding-right: 8px;">
+        <a class="btn btn-default navbar-btn" href="/user/edit"><span class="glyphicon glyphicon-user"></span></a>
         <a class="btn btn-danger navbar-btn" href="/logout">Logout</a>
       </div>
     </div>
       <div class="navbar-right hidden-xs">
+        <a class="btn btn-default navbar-btn" href="/user/edit"><span class="glyphicon glyphicon-user"></span>{{owner.username}}</a>
         <a class="btn btn-danger navbar-btn" href="/logout">Logout</a>
       </div>
   </div>

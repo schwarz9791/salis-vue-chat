@@ -45,7 +45,8 @@ module.exports.policies = {
   },
 
   file: {
-    'get': true
+    'get': true,
+    'remove': true
   }
 
   /***************************************************************************
