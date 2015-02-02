@@ -5,8 +5,8 @@
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
-var blobAdapter = require(sails.config.connections.mongoFileDb.adapter)({
-  uri: sails.config.connections.mongoFileDb.uri + '.avatar'
+var blobAdapter = sails.config.connections.mongoFileDb.adapter({
+  uri: sails.config.connections.mongoFileDb.uri
 });
 
 module.exports = {

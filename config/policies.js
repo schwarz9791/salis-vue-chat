@@ -38,15 +38,16 @@ module.exports.policies = {
   },
 
   user: {
-    '*': true,
+    '*': false,
     'current': true,
     'create': true,
+    'edit': 'loginAuth',
     'destroy': 'sessionAuth'
   },
 
   file: {
     'get': true,
-    'remove': true
+    'remove': 'sessionAuth'
   }
 
   /***************************************************************************

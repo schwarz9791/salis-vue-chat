@@ -52,7 +52,7 @@ module.exports.routes = {
     action: 'chat'
   },
 
-  'get /file/:id': {
+  'get /file/:fd': {
     controller: 'file',
     action: 'get'
   },

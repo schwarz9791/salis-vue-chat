@@ -5,17 +5,17 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var blobAdapter = require(sails.config.connections.mongoFileDb.adapter)({
-  uri: sails.config.connections.mongoFileDb.uri + '.avatar'
-});
-var receiver = blobAdapter.receive();
+var blobAdapter = sails.config.connections.mongoFileDb;
 
 module.exports = {
   create: function(req, res) {
-    req.file('avatar').upload(receiver, function whenDone(err, uploadedFiles) {
+    req.file('avatar').upload({
+          adapter: require('skipper-gridfs'),
+          uri: sails.config.connections.mongoFileDb.uri
+        }, function whenDone(err, uploadedFiles) {
       if (err) return res.negotiate(err);
 
-      if (uploadedFiles.length == 0) req.body.avatar = null;
+      if (uploadedFiles.length === 0) req.body.avatar = null;
       else req.body.avatar = uploadedFiles[0].fd;
 
       // return res.ok(req.body);
@@ -23,7 +23,7 @@ module.exports = {
       User.create(req.body)
       .exec(function(err, user) {
         if (err) return res.negotiate(err);
-        console.log(user);
+        console.log('Created user.\n' + JSON.stringify(user));
         req.logIn(user, function(err) {
           if (err) return res.negotiate(err);
 
@@ -41,9 +41,12 @@ module.exports = {
       User.checkPassword(req.body.password, user, function(err) {
         if (err) return res.send(err);
 
-        req.file('avatar').upload(receiver, function whenDone(err, uploadedFiles) {
+        req.file('avatar').upload({
+          adapter: require('skipper-gridfs'),
+          uri: sails.config.connections.mongoFileDb.uri
+        }, function whenDone(err, uploadedFiles) {
           if (err) return res.negotiate(err);
-          if (uploadedFiles.length == 0) {
+          if (uploadedFiles.length === 0) {
             req.body.avatar = user.avatar;
           } else {
             req.body.avatar = uploadedFiles[0].fd;
@@ -56,6 +59,8 @@ module.exports = {
 
           User.update(req.params.id, req.body)
           .exec(function(err, user) {
+            if (err) return res.negotiate(err);
+            console.log('Updated user.\n' + JSON.stringify(user));
             return res.redirect('/user/edit');
           });
         });
