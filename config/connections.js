@@ -71,7 +71,7 @@ module.exports.connections = {
 
   mongoFileDb: {
     adapter: 'skipper-gridfs',
-    uri: process.env.MONGOLAB_URI
+    uri: process.env.MONGOLAB_URI + '.avatar'
   },
 
   /***************************************************************************
