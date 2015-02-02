@@ -10,7 +10,7 @@
       </div>
     </div>
       <div class="navbar-right hidden-xs">
-        <a class="btn btn-default navbar-btn" href="/user/edit"><span class="glyphicon glyphicon-user"></span>{{owner.username}}</a>
+        <a class="btn btn-default navbar-btn" href="/user/edit"><span class="glyphicon glyphicon-user"></span> <span v-cloak>{{current_user.username}}</span></a>
         <a class="btn btn-danger navbar-btn" href="/logout">Logout</a>
       </div>
   </div>
