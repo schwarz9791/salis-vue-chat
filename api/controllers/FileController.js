@@ -5,7 +5,7 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var blobAdapter = sails.config.connections.mongoFileDb.adapter({
+var blobAdapter = require(sails.config.connections.mongoFileDb.adapter)({
   uri: sails.config.connections.mongoFileDb.uri
 });
 

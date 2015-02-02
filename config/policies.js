@@ -41,8 +41,9 @@ module.exports.policies = {
     '*': false,
     'current': true,
     'create': true,
-    'edit': 'loginAuth',
-    'destroy': 'sessionAuth'
+    'update': 'sessionAuth',
+    'destroy': 'sessionAuth',
+    'edit': 'loginAuth'
   },
 
   file: {

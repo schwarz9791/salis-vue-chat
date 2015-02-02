@@ -5,12 +5,10 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var blobAdapter = sails.config.connections.mongoFileDb;
-
 module.exports = {
   create: function(req, res) {
     req.file('avatar').upload({
-          adapter: require('skipper-gridfs'),
+          adapter: require(sails.config.connections.mongoFileDb.adapter),
           uri: sails.config.connections.mongoFileDb.uri
         }, function whenDone(err, uploadedFiles) {
       if (err) return res.negotiate(err);
@@ -42,7 +40,7 @@ module.exports = {
         if (err) return res.send(err);
 
         req.file('avatar').upload({
-          adapter: require('skipper-gridfs'),
+          adapter: require(sails.config.connections.mongoFileDb.adapter),
           uri: sails.config.connections.mongoFileDb.uri
         }, function whenDone(err, uploadedFiles) {
           if (err) return res.negotiate(err);
