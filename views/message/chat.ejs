@@ -1,40 +1,25 @@
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">
-        Sails.js + Vue.js Sample
-      </a>
-      <div class="visible-xs text-right" style="padding-right: 8px;">
-        <a class="btn btn-default navbar-btn" href="/user/edit"><span class="glyphicon glyphicon-user"></span></a>
-        <a class="btn btn-danger navbar-btn" href="/logout">Logout</a>
+<div id="chat">
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">
+          Sails.js + Vue.js Sample
+        </a>
+        <div class="visible-xs text-right" style="padding-right: 8px;">
+          <a class="btn btn-default navbar-btn" href="/user/edit"><span class="glyphicon glyphicon-user"></span></a>
+          <a class="btn btn-danger navbar-btn" href="/logout">Logout</a>
+        </div>
       </div>
+        <div class="navbar-right hidden-xs">
+          <a class="btn btn-default navbar-btn" href="/user/edit"><span class="glyphicon glyphicon-user"></span> <span v-cloak>{{current_user.username}}</span></a>
+          <a class="btn btn-danger navbar-btn" href="/logout">Logout</a>
+        </div>
     </div>
-      <div class="navbar-right hidden-xs">
-        <a class="btn btn-default navbar-btn" href="/user/edit"><span class="glyphicon glyphicon-user"></span> <span v-cloak>{{current_user.username}}</span></a>
-        <a class="btn btn-danger navbar-btn" href="/logout">Logout</a>
-      </div>
-  </div>
-</nav>
+  </nav>
 
-<nav class="navbar navbar-default navbar-fixed-bottom visible-xs">
-  <div class="container">
-    <form class="navbar-form" role="post" v-on="submit: create">
-      <input type="hidden" name="_csrf" value="<%= _csrf %>" v-model="csrf">
-      <div class="input-group">
-        <input type="text" class="form-control" v-model="newMessage.body" placeholder="Enter new message" autofocus>
-        <span class="input-group-btn">
-          <button class="btn btn-primary" type="submit">Send</button>
-        </span>
-      </div>
-    </form>
-  </div>
-</nav>
-
-<div class="container">
-  <div class="row">
-    <div class="col-sm-4 hidden-xs">
-    <div style="position: fixed; width: 25%; min-width: 240px; max-width: 360px; padding-right: 10px;">
-      <form role="post" v-on="submit: create">
+  <nav class="navbar navbar-default navbar-fixed-bottom visible-xs">
+    <div class="container">
+      <form class="navbar-form" role="post" v-on="submit: create">
         <input type="hidden" name="_csrf" value="<%= _csrf %>" v-model="csrf">
         <div class="input-group">
           <input type="text" class="form-control" v-model="newMessage.body" placeholder="Enter new message" autofocus>
@@ -44,32 +29,47 @@
         </div>
       </form>
     </div>
-    </div>
-    <div class="col-sm-8 col-sm-offset-4" style="margin-bottom: 80px;">
-      <div class="media" v-repeat="messages" v-cloak track-by="id">
-        <a class="media-left" href="#" v-if="!isOwner(owner.id)">
-          <div class="avatar">
-            <img class="avatar" v-if="!hasAvatar(owner.avatar)" src="/images/unknown-avatar.png" alt="avatar">
-            <img class="avatar" v-if="hasAvatar(owner.avatar)" v-attr= "src: '/file/' + owner.avatar" alt="avatar">
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 hidden-xs">
+      <div style="position: fixed; width: 25%; min-width: 240px; max-width: 360px; padding-right: 10px;">
+        <form role="post" v-on="submit: create">
+          <input type="hidden" name="_csrf" value="<%= _csrf %>" v-model="csrf">
+          <div class="input-group">
+            <input type="text" class="form-control" v-model="newMessage.body" placeholder="Enter new message" autofocus>
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="submit">Send</button>
+            </span>
           </div>
-        </a>
-        <div class="media-body" style="width:100%;">
-          <div class="small text-muted pull-right">{{createdAt | fromNow}}</div>
-          <h4 class="media-heading">{{owner.username}}</h4>
-          {{body}}
-        </div>
-        <a class="media-right" href="#" v-if="isOwner(owner.id)">
-          <div class="avatar">
-            <img class="avatar" v-if="!hasAvatar(owner.avatar)" src="/images/unknown-avatar.png" alt="avatar">
-            <img class="avatar" v-if="hasAvatar(owner.avatar)" v-attr= "src: '/file/' + owner.avatar" alt="avatar">
-          </div>
-        </a>
-        <div class="small" v-if="isOwner(owner.id)"><a class="text-danger" v-on="click: remove(this)">削除</a></div>
+        </form>
       </div>
-      <hr>
-      <button id="more" class="btn btn-default btn-block" v-if="!is_last" v-on="click: more(page)">もっと読む...</button>
+      </div>
+      <div class="col-sm-8 col-sm-offset-4" style="margin-bottom: 80px;">
+        <div class="media" v-repeat="messages" v-cloak track-by="id">
+          <a class="media-left" href="#" v-if="!isOwner(owner.id)">
+            <div class="avatar-box">
+              <img class="avatar" v-if="!hasAvatar(owner.avatar)" src="/images/unknown-avatar.png" alt="avatar">
+              <img class="avatar" v-if="hasAvatar(owner.avatar)" v-attr= "src: '/file/' + owner.avatar" alt="avatar">
+            </div>
+          </a>
+          <div class="media-body" style="width:100%;">
+            <div class="small text-muted pull-right">{{createdAt | fromNow}}</div>
+            <h4 class="media-heading">{{owner.username}}</h4>
+            {{body}}
+          </div>
+          <a class="media-right" href="#" v-if="isOwner(owner.id)">
+            <div class="avatar-box">
+              <img class="avatar" v-if="!hasAvatar(owner.avatar)" src="/images/unknown-avatar.png" alt="avatar">
+              <img class="avatar" v-if="hasAvatar(owner.avatar)" v-attr= "src: '/file/' + owner.avatar" alt="avatar">
+            </div>
+          </a>
+          <div class="small" v-if="isOwner(owner.id)"><a class="text-danger" v-on="click: remove(this)">削除</a></div>
+        </div>
+        <hr>
+        <button id="more" class="btn btn-default btn-block" v-if="!is_last" v-on="click: more(page)">もっと読む...</button>
+      </div>
     </div>
   </div>
 </div>
-
-<% script('/js/message/app.js') -%>

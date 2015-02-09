@@ -8,9 +8,9 @@
 module.exports = {
   create: function(req, res) {
     req.file('avatar').upload({
-          adapter: require(sails.config.connections.mongoFileDb.adapter),
-          uri: sails.config.connections.mongoFileDb.uri
-        }, function whenDone(err, uploadedFiles) {
+      adapter: require(sails.config.connections.mongoFileDb.adapter),
+      uri: sails.config.connections.mongoFileDb.uri
+    }, function whenDone(err, uploadedFiles) {
       if (err) return res.negotiate(err);
 
       if (uploadedFiles.length === 0) req.body.avatar = null;

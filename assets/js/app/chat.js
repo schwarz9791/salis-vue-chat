@@ -1,6 +1,6 @@
 var loading = false;
-var app = new Vue({
-  el: 'body',
+var chat = new Vue({
+  el: '#chat',
 
   data: {
     messages: [],
@@ -9,7 +9,7 @@ var app = new Vue({
     is_last: false,
     has_avatar: false,
     count: io.socket.get('/message/count', function (res) {
-      app.count = res.count;
+      chat.count = res.count;
     })
   },
 
@@ -59,8 +59,8 @@ var app = new Vue({
   },
 
   methods: {
-    create: function (event) {
-      event.preventDefault(); // submit 時のページ遷移を無効にする
+    create: function (e) {
+      e.preventDefault(); // submit 時のページ遷移を無効にする
 
       var _this = this;
 
@@ -70,7 +70,6 @@ var app = new Vue({
           return console.error(res.error);
         }
         _this.newMessage.body = '';
-
       });
     },
 
@@ -118,7 +117,7 @@ $(function() {
       var morePos = $('#more').offset().top - $(window).height();
       if ($(window).scrollTop() > morePos && !loading) {
         loading = true;
-        app.more(app.page);
+        chat.more(chat.page);
       }
     }
   });
