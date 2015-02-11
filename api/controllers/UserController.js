@@ -26,7 +26,7 @@ module.exports = {
           // req.isAuthenticated() -> true
           // req.user -> user -> When new LocalStrategy, Callback user Object
           req.session.authenticated = req.isAuthenticated();
-          res.json({ flash: "Successful in creating a user: " + user.username });
+          // res.json({ flash: "Successful in creating a user: " + user.username });
           return res.redirect('/chat');
         });
       });
