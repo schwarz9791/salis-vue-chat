@@ -73,6 +73,7 @@ var account = new Vue({
       var xhr = new XMLHttpRequest();
       var _this = this;
       xhr.open('POST', '/user/create');
+      xhr.setRequestHeader('Cache-Control', 'max-age=0');
       xhr.onload = function(evt) {
         if (xhr.status == 200) {
           _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
