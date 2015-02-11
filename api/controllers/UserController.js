@@ -26,7 +26,7 @@ module.exports = {
           // req.isAuthenticated() -> true
           // req.user -> user -> When new LocalStrategy, Callback user Object
           req.session.authenticated = req.isAuthenticated();
-          // res.json({ flash: "Successful in creating a user: " + user.username });
+          if (req.wantsJSON) return res.json(user);
           return res.redirect('/chat');
         });
       });
@@ -58,7 +58,7 @@ module.exports = {
           .exec(function(err, user) {
             if (err) return res.negotiate(err);
             console.log('Updated user.\n' + JSON.stringify(user));
-            // return res.json({ flash: 'Your account updated.' });
+            if (req.wantsJSON) return res.json(user);
             return res.redirect('/user/edit');
           });
         });
