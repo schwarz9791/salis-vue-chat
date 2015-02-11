@@ -1,5 +1,9 @@
 <div id="account">
   <div class="container">
+    <div v-repeat="flash" v-attr="class: 'alert ' + status" role="alert" v-cloak>
+      <button type="button" class="close" v-on="click: alertDismiss(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      {{notice}}
+    </div>
     <div class="row">
       <div class="col-md-3"></div>
       <div class="col-md-6">
@@ -18,7 +22,7 @@
               <label class="control-label" for="password">New Password</label>
               <input class="form-control" id="password" type="password" name="new_password" placeholder="Input Login Password" v-model="new_password" value="">
             </div>
-            <div class="form-group" v-class="has-error: has_error">
+            <div class="form-group" v-class="has-error: has_confirm_error">
               <label class="control-label" for="password">Confirm New Password</label>
               <input class="form-control" id="confirm" type="password" name="confirm" placeholder="Confirm Login Password" v-model="confirm" value="">
             </div>
@@ -26,14 +30,14 @@
               <div class="col-xs-3">
                 <div class="avatar-box">
                   <span id="loadingIcon" class="glyphicon glyphicon-repeat spinner loading hidden"></span>
-                  <img id="avatar" v-if="!hasAvatar(avatar)" src="/images/unknown-avatar.png" alt="avatar">
-                  <img id="avatar" v-if="hasAvatar(avatar)" v-attr= "src: '/file/' + avatar" alt="avatar">
+                  <img id="avatar" v-if="!has_avatar" src="/images/unknown-avatar.png" alt="avatar">
+                  <img id="avatar" v-if="has_avatar" v-attr= "src: '/file/' + avatar" alt="avatar">
                   <canvas id="tmpCanvas" width="200" height="200"></canvas>
                 </div>
               </div>
               <div class="col-xs-9">
                 <label class="control-label" for="avatar">Avatar Image</label>
-                <input class="form-control" id="avatar-input" type="file" name="avatar" v-on="change: setAvatar">
+                <input class="form-control" id="avatarFile" type="file" name="avatar" v-on="change: setAvatar">
               </div>
             </div>
             <button class="btn btn-primary" type="submit" v-class="disabled: has_error">Update</button>

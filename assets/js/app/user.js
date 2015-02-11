@@ -5,18 +5,32 @@ var account = new Vue({
     id: '',
     username: '',
     avatar: '',
-    has_error: false
+    has_error: false,
+    flash: []
   },
 
   computed: {
-    has_error: function(pass, confirm) {
-      if (typeof this.new_password !== 'undefined'){
-        if (this.new_password == this.confirm && this.password != '') return false;
+    has_error: function() {
+      if (typeof this.new_password === 'undefined') {
+        if (this.password == this.confirm && this.password != '') return false;
+        return true;
+      } else {
+        if (this.password != '') return false;
+        return true;
+      }
+    },
+    has_confirm_error: function() {
+      if (typeof this.new_password !== 'undefined') {
+        if (this.new_password == this.confirm && this.new_password != '') return false;
         return true;
       } else {
         if (this.password == this.confirm && this.password != '') return false;
         return true;
       }
+    },
+    has_avatar: function() {
+      if (this.avatar) return true;
+      return false;
     }
   },
 
@@ -30,43 +44,41 @@ var account = new Vue({
   },
 
   methods: {
-    hasAvatar: function(arg) {
-      if (arg) return true;
-      return false;
-    },
-
     create: function(e) {
       e.preventDefault();
 
-      var base64 = avatar.src;
-      // Base64からバイナリへ変換
-      var bin = atob(base64.replace(/^.*,/, ''));
-      var buffer = new Uint8Array(bin.length);
-      for (var i = 0; i < bin.length; i++) {
-        buffer[i] = bin.charCodeAt(i);
-      }
-      // Blobを作成
-      var blob = new Blob([buffer.buffer], { type: 'image/png' });
-
       var fd = new FormData();
+
+      if (typeof avatarFile.files[0] !== 'undefined') {
+        var base64 = avatar.src;
+        // Base64からバイナリへ変換
+        var bin = atob(base64.replace(/^.*,/, ''));
+        var buffer = new Uint8Array(bin.length);
+        for (var i = 0; i < bin.length; i++) {
+          buffer[i] = bin.charCodeAt(i);
+        }
+        // Blobを作成
+        var blob = new Blob([buffer.buffer], { type: 'image/png' });
+        fd.append('avatar', blob, 'avatar.png');
+      }
+
       // フォームのavatar以外全ての入力値をFormDataに追加
       var formArray = $(e.target).serializeArray();
       $.each(formArray, function(i, field) {
-        if (field['name'] != 'avatar') {
-          fd.append(field['name'], field['value']);
-        }
+        fd.append(field['name'], field['value']);
       });
-      fd.append('avatar', blob, 'avatar.png');
 
       // サーバに POST /user/create としてリクエストする
       // io.socket 経由だとFormDataを送れないため、xhrで
       var xhr = new XMLHttpRequest();
+      var _this = this;
       xhr.open('POST', '/user/create');
       xhr.onload = function(evt) {
         if (xhr.status == 200) {
-          window.location = '/chat';
+          _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
         } else {
-          console.error(evt.error);
+          _this.flash.push({ notice: JSON.parse(xhr.response).error, status: 'alert-danger' });
+          console.error(JSON.parse(xhr.response).error);
         }
       };
       xhr.send(fd);
@@ -75,38 +87,44 @@ var account = new Vue({
     update: function(e) {
       e.preventDefault();
 
-      var base64 = avatar.src;
-      // Base64からバイナリへ変換
-      var bin = atob(base64.replace(/^.*,/, ''));
-      var buffer = new Uint8Array(bin.length);
-      for (var i = 0; i < bin.length; i++) {
-        buffer[i] = bin.charCodeAt(i);
-      }
-      // Blobを作成
-      var blob = new Blob([buffer.buffer], { type: 'image/png' });
-
       var fd = new FormData();
+
+      if (typeof avatarFile.files[0] !== 'undefined') {
+        var base64 = avatar.src;
+        // Base64からバイナリへ変換
+        var bin = atob(base64.replace(/^.*,/, ''));
+        var buffer = new Uint8Array(bin.length);
+        for (var i = 0; i < bin.length; i++) {
+          buffer[i] = bin.charCodeAt(i);
+        }
+        // Blobを作成
+        var blob = new Blob([buffer.buffer], { type: 'image/png' });
+        fd.append('avatar', blob, 'avatar.png');
+      }
+
       // フォームのavatar以外全ての入力値をFormDataに追加
       var formArray = $(e.target).serializeArray();
       $.each(formArray, function(i, field) {
-        if (field['name'] != 'avatar') {
-          fd.append(field['name'], field['value']);
-        }
+        fd.append(field['name'], field['value']);
       });
-      fd.append('avatar', blob, 'avatar.png');
 
       // サーバに POST /user/update としてリクエストする
       // io.socket 経由だとFormDataを送れないため、xhrで
       var xhr = new XMLHttpRequest();
+      var _this = this;
       xhr.open('POST', '/user/update/' + this.id);
       xhr.onload = function(evt) {
         if (xhr.status == 200) {
-          window.location = '/user/edit';
+          _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
         } else {
-          console.error(evt.error);
+          _this.flash.push({ notice: JSON.parse(xhr.response).error, status: 'alert-danger' });
+          console.error(JSON.parse(xhr.response).error);
         }
       };
       xhr.send(fd);
+      // io.socket.post('/user/update/' + this.id, fd, function (res) {
+      //   if (res.error) return console.error(res.error);
+      // });
     },
 
     setAvatar: function(e) {
@@ -154,6 +172,11 @@ var account = new Vue({
       }
       // ファイルを読み込み、データをBase64でエンコードされたデータURLにして返す
       fr.readAsDataURL(file);
+    },
+
+    alertDismiss: function(notice) {
+      // console.log(notice);
+      this.flash.splice(notice.$index, 1)[0];
     }
   }
 

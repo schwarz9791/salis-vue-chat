@@ -16,8 +16,6 @@ module.exports = {
       if (uploadedFiles.length === 0) req.body.avatar = null;
       else req.body.avatar = uploadedFiles[0].fd;
 
-      // return res.ok(req.body);
-
       User.create(req.body)
       .exec(function(err, user) {
         if (err) return res.negotiate(err);
@@ -28,7 +26,8 @@ module.exports = {
           // req.isAuthenticated() -> true
           // req.user -> user -> When new LocalStrategy, Callback user Object
           req.session.authenticated = req.isAuthenticated();
-          return res.redirect("/chat");
+          res.json({ flash: "Successful in creating a user: " + user.username });
+          return res.redirect('/chat');
         });
       });
     });
@@ -37,7 +36,7 @@ module.exports = {
   update: function(req, res) {
     User.findOne(req.params.id).exec(function(err, user) {
       User.checkPassword(req.body.password, user, function(err) {
-        if (err) return res.send(err);
+        if (err) return res.send(422, err);
 
         req.file('avatar').upload({
           adapter: require(sails.config.connections.mongoFileDb.adapter),
@@ -59,7 +58,8 @@ module.exports = {
           .exec(function(err, user) {
             if (err) return res.negotiate(err);
             console.log('Updated user.\n' + JSON.stringify(user));
-            return res.redirect('/user/edit');
+            // return res.redirect('/user/edit');
+            return res.json({ flash: 'Your account updated.' });
           });
         });
       });
@@ -72,7 +72,7 @@ module.exports = {
 
   current: function(req, res) {
     User.findOne(req.session.passport.user).exec(function(err, user) {
-      if (err) res.json({error: "don't find current user"});
+      if (err) res.json({ error: "don't find current user" });
       res.json(user);
     });
   }
