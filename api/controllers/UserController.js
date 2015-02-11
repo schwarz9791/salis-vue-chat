@@ -58,8 +58,8 @@ module.exports = {
           .exec(function(err, user) {
             if (err) return res.negotiate(err);
             console.log('Updated user.\n' + JSON.stringify(user));
-            // return res.redirect('/user/edit');
-            return res.json({ flash: 'Your account updated.' });
+            // return res.json({ flash: 'Your account updated.' });
+            return res.redirect('/user/edit');
           });
         });
       });
