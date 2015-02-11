@@ -73,6 +73,7 @@ var account = new Vue({
       var xhr = new XMLHttpRequest();
       var _this = this;
       xhr.open('POST', '/user/create');
+      xhr.setRequestHeader('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8');
       xhr.setRequestHeader('Cache-Control', 'max-age=0');
       xhr.onload = function(evt) {
         if (xhr.status == 200) {
