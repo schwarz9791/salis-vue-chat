@@ -70,21 +70,21 @@ var account = new Vue({
 
       // サーバに POST /user/create としてリクエストする
       // io.socket 経由だとFormDataを送れないため、xhrで
-      // var xhr = new XMLHttpRequest();
-      // var _this = this;
-      // xhr.open('POST', '/user/create');
-      // xhr.onload = function(evt) {
-      //   if (xhr.status == 200) {
-      //     _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
-      //   } else {
-      //     _this.flash.push({ notice: JSON.parse(xhr.response).error, status: 'alert-danger' });
-      //     console.error(JSON.parse(xhr.response).error);
-      //   }
-      // };
-      // xhr.send(fd);
-      io.socket.post('/user/create', fd, function (res) {
-        if (res.error) return console.error(res.error);
-      });
+      var xhr = new XMLHttpRequest();
+      var _this = this;
+      xhr.open('POST', '/user/create');
+      xhr.onload = function(evt) {
+        if (xhr.status == 200) {
+          _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
+        } else {
+          _this.flash.push({ notice: JSON.parse(xhr.response).error, status: 'alert-danger' });
+          console.error(JSON.parse(xhr.response).error);
+        }
+      };
+      xhr.send(fd);
+      // io.socket.post('/user/create', fd , function (res) {
+      //   if (res.error) return console.error(res.error);
+      // });
     },
 
     update: function(e) {
