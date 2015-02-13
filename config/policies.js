@@ -38,7 +38,7 @@ module.exports.policies = {
   },
 
   user: {
-    '*': false,
+    '*': true,
     'current': true,
     'create': true,
     'update': 'sessionAuth',
@@ -46,7 +46,7 @@ module.exports.policies = {
     'edit': 'loginAuth'
   },
 
-  file: {
+  avatar: {
     'get': true,
     'remove': 'sessionAuth'
   }

@@ -1,3 +1,3 @@
-# sailsChat
+# sails-vue-chat
 
-a [Sails](http://sailsjs.org) + [Vue](http://vuejs.org) sample chat application
+a [Sails](http://sailsjs.org) application

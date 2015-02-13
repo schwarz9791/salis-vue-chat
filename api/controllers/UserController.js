@@ -26,7 +26,7 @@ module.exports = {
           // req.isAuthenticated() -> true
           // req.user -> user -> When new LocalStrategy, Callback user Object
           req.session.authenticated = req.isAuthenticated();
-          if (req.wantsJSON) return res.json(user);
+          if (req.wantsJSON) return res.json({ flash: 'Successful in creating a new user.', user: user });
           return res.redirect('/chat');
         });
       });
@@ -34,6 +34,7 @@ module.exports = {
   },
 
   update: function(req, res) {
+    console.log(req.body)
     User.findOne(req.params.id).exec(function(err, user) {
       User.checkPassword(req.body.password, user, function(err) {
         if (err) return res.send(422, err);
@@ -48,7 +49,7 @@ module.exports = {
           } else {
             req.body.avatar = uploadedFiles[0].fd;
             if (user.avatar) {
-              File.remove(user.avatar, function(err) {
+              Avatar.remove(user.avatar, function(err) {
                 console.log('The record has been deleted');
               });
             }
@@ -58,7 +59,7 @@ module.exports = {
           .exec(function(err, user) {
             if (err) return res.negotiate(err);
             console.log('Updated user.\n' + JSON.stringify(user));
-            if (req.wantsJSON) return res.json(user);
+            if (req.wantsJSON) return res.json({ flash: 'Updated your data.', user: user });
             return res.redirect('/user/edit');
           });
         });

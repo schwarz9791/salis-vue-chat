@@ -1,5 +1,5 @@
 {
-  "name": "sailsChat",
+  "name": "sails-vue-chat",
   "private": true,
   "version": "0.0.1",
   "description": "a Sails.js + Vue.js sample application",
@@ -13,7 +13,7 @@
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "rc": "~0.5.0",
-    "sails": "~0.10.5",
+    "sails": "~0.11.0",
     "sails-disk": "~0.10.0",
     "sails-mongo": "^0.10.5",
     "skipper-gridfs": "^0.5.3"
@@ -25,14 +25,14 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/schwarz9791/sailsChat.git"
+    "url": "git://github.com/schwarz9791/sails-vue-chat.git"
   },
   "author": "schwarz9791",
   "license": "MIT license",
   "bugs": {
-    "url": "https://github.com/schwarz9791/sailsChat/issues"
+    "url": "https://github.com/schwarz9791/sails-vue-chat/issues"
   },
-  "homepage": "https://github.com/schwarz9791/sailsChat",
+  "homepage": "https://github.com/schwarz9791/sails-vue-chat",
   "devDependencies": {
     "grunt": "0.4.2",
     "grunt-contrib-clean": "~0.5.0",

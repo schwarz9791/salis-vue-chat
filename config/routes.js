@@ -21,20 +21,14 @@
  */
 
 module.exports.routes = {
-
-  '/': {
-    controller: 'dashboard',
-    action: 'index'
-  },
-
-  'get /login': {
-    controller: 'auth',
-    action: 'login'
-  },
-
-  'post /login': {
+  'POST /login': {
     controller: 'auth',
     action: 'process'
+  },
+
+  'GET /login': {
+    controller: 'auth',
+    action: 'login'
   },
 
   '/logout': {
@@ -52,8 +46,8 @@ module.exports.routes = {
     action: 'chat'
   },
 
-  'get /file/:fd': {
-    controller: 'file',
+  'GET /avatar/:fd': {
+    controller: 'avatar',
     action: 'get'
   },
 

@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-md-3"></div>
       <div class="col-md-6">
-        <form action="/user/update/{{id}}" enctype="multipart/form-data" method="post">
+        <form action="/user/update/{{id}}" enctype="multipart/form-data" method="post" v-on="submit: update">
           <input type="hidden" name="_csrf" value="<%= _csrf %>" v-model="csrf">
           <div class="login">
             <div class="form-group">
@@ -31,7 +31,7 @@
                 <div class="avatar-box">
                   <span id="loadingIcon" class="glyphicon glyphicon-repeat spinner loading hidden"></span>
                   <img id="avatar" v-if="!has_avatar" src="/images/unknown-avatar.png" alt="avatar">
-                  <img id="avatar" v-if="has_avatar" v-attr= "src: '/file/' + avatar" alt="avatar">
+                  <img id="avatar" v-if="has_avatar" v-attr= "src: '/avatar/' + avatar" alt="avatar">
                   <canvas id="tmpCanvas" width="200" height="200"></canvas>
                 </div>
               </div>
