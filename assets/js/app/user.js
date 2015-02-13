@@ -74,9 +74,14 @@ if ($('#account').length) {
         var xhr = new XMLHttpRequest();
         var _this = this;
         xhr.open('POST', '/user/create');
+        xhr.setRequestHeader('Cache-Control', 'max-age=0');
+        xhr.setRequestHeader('Accept', 'application/json');
         xhr.onload = function(evt) {
           if (xhr.status == 200) {
             _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
+            setTimeout(function(){
+              window.location = '/chat';
+            }, 500);
           } else {
             _this.flash.push({ notice: JSON.parse(xhr.response).error, status: 'alert-danger' });
             console.error(JSON.parse(xhr.response).error);
@@ -125,6 +130,8 @@ if ($('#account').length) {
         var xhr = new XMLHttpRequest();
         var _this = this;
         xhr.open('POST', '/user/update/' + this.id);
+        xhr.setRequestHeader('Cache-Control', 'max-age=0');
+        xhr.setRequestHeader('Accept', 'application/json');
         xhr.onload = function(evt) {
           if (xhr.status == 200) {
             _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
