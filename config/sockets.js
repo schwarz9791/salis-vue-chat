@@ -38,17 +38,17 @@ module.exports.sockets = {
   * via port 6379                                                            *
   *                                                                          *
   ***************************************************************************/
-  // adapter: 'memory',
+  adapter: 'memory',
 
   //
   // -OR-
   //
 
-  adapter: 'redis',
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-  db: process.env.REDIS_DB,
-  pass: process.env.REDIS_PASSWORD,
+  // adapter: 'redis',
+  // host: process.env.REDIS_HOST,
+  // port: process.env.REDIS_PORT,
+  // db: process.env.REDIS_DB,
+  // pass: process.env.REDIS_PASSWORD,
 
 
 
@@ -65,7 +65,7 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
 
-  grant3rdPartyCookie: true,
+  // grant3rdPartyCookie: true,
 
 
 
