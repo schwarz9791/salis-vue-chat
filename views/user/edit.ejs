@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-md-3"></div>
       <div class="col-md-6">
-        <form action="/user/update/{{id}}" enctype="multipart/form-data" method="post">
+        <form action="/user/update/{{id}}" enctype="multipart/form-data" method="post" v-on="submit: update">
           <input type="hidden" name="_csrf" value="<%= _csrf %>" v-model="csrf">
           <div class="login">
             <div class="form-group">

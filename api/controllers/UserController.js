@@ -7,7 +7,6 @@
 
 module.exports = {
   create: function(req, res) {
-    console.log(req.file('avatar'));
     req.file('avatar').upload({
       adapter: require(sails.config.connections.s3Adapter.adapter),
       key: sails.config.connections.s3Adapter.key,
@@ -37,12 +36,17 @@ module.exports = {
   },
 
   update: function(req, res) {
+    console.log(sails.config.cors.securityLevel);
+    console.log(sails.hooks.cors.SECURITY_LEVEL_VERYHIGH);
+    console.log(res.get('Access-Control-Allow-Origin'));
+    console.log(req.headers.origin);
+    console.log(req.host);
+    console.log(req.headers.origin);
     console.log(req.body)
     User.findOne(req.params.id).exec(function(err, user) {
       User.checkPassword(req.body.password, user, function(err) {
         if (err) return res.send(422, err);
 
-        console.log(req.file('avatar'));
         req.file('avatar').upload({
           adapter: require(sails.config.connections.s3Adapter.adapter),
           key: sails.config.connections.s3Adapter.key,
