@@ -7,6 +7,7 @@
 
 module.exports = {
   create: function(req, res) {
+    console.log(req.file('avatar'));
     req.file('avatar').upload({
       adapter: require(sails.config.connections.s3Adapter.adapter),
       key: sails.config.connections.s3Adapter.key,
@@ -41,6 +42,7 @@ module.exports = {
       User.checkPassword(req.body.password, user, function(err) {
         if (err) return res.send(422, err);
 
+        console.log(req.file('avatar'));
         req.file('avatar').upload({
           adapter: require(sails.config.connections.s3Adapter.adapter),
           key: sails.config.connections.s3Adapter.key,
