@@ -69,10 +69,10 @@ module.exports.connections = {
     url: process.env.MONGOLAB_URI
   },
 
-  mongoFileDb: {
-    adapter: 'skipper-gridfs',
-    uri: process.env.MONGOLAB_URI + '.avatar'
-  },
+  // mongoFileDb: {
+  //   adapter: 'skipper-gridfs',
+  //   uri: process.env.MONGOLAB_URI + '.avatar'
+  // },
 
   /***************************************************************************
   *                                                                          *
@@ -97,5 +97,11 @@ module.exports.connections = {
   * More adapters: https://github.com/balderdashy/sails                      *
   *                                                                          *
   ***************************************************************************/
+  s3Adapter: {
+    adapter: 'skipper-s3',
+    key: process.env.S3_KEY,
+    secret: process.env.S3_SECRET,
+    bucket: 'sails-vue-chat'
+  }
   
 };
