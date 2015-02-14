@@ -41,14 +41,14 @@ module.exports.policies = {
     '*': true,
     'current': true,
     'create': true,
-    'update': true,
+    'update': 'sessionAuth',
     'destroy': 'sessionAuth',
     'edit': 'loginAuth'
   },
 
   avatar: {
     'get': true,
-    'remove': true
+    'remove': 'sessionAuth'
   }
 
   /***************************************************************************
