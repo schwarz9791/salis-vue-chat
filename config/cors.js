@@ -49,7 +49,7 @@ module.exports.cors = {
   ***************************************************************************/
 
   // origin: '*',
-  origin: 'https://sails-vue-chat.herokuapp.com',
+  origin: 'http://sails-vue-chat.herokuapp.com,https://sails-vue-chat.herokuapp.com',
 
   /***************************************************************************
   *                                                                          *
@@ -75,6 +75,6 @@ module.exports.cors = {
   *                                                                          *
   ***************************************************************************/
 
-  // headers: 'content-type'
+  headers: 'content-type'
 
 };

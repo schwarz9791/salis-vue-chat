@@ -74,6 +74,7 @@ if ($('#account').length) {
         var xhr = new XMLHttpRequest();
         var _this = this;
         xhr.open('POST', '/user/create');
+        xhr.withCredentials = true;
         xhr.onload = function(evt) {
           if (xhr.status == 200) {
             _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
@@ -103,7 +104,7 @@ if ($('#account').length) {
         e.preventDefault();
 
         var fd = new FormData();
-        
+
         // フォームのavatar以外全ての入力値をFormDataに追加
         var formArray = $(e.target).serializeArray();
         $.each(formArray, function(i, field) {
@@ -128,6 +129,7 @@ if ($('#account').length) {
         var xhr = new XMLHttpRequest();
         var _this = this;
         xhr.open('POST', '/user/update/' + this.id);
+        xhr.withCredentials = true;
         xhr.onload = function(evt) {
           if (xhr.status == 200) {
             _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
