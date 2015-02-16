@@ -1,1 +1,1 @@
-web: node --debug=$PORT app.js
+web: node app.js --prod
