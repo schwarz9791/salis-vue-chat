@@ -73,8 +73,7 @@ if ($('#account').length) {
         // io.socket 経由だとFormDataを送れないため、xhrで
         var xhr = new XMLHttpRequest();
         var _this = this;
-        xhr.open('POST', '/user/create', false);
-        xhr.withCredentials = true;
+        xhr.open('POST', '/user/create');
         xhr.onload = function(evt) {
           if (xhr.status == 200) {
             _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
@@ -128,8 +127,7 @@ if ($('#account').length) {
         // io.socket 経由だとFormDataを送れないため、xhrで
         var xhr = new XMLHttpRequest();
         var _this = this;
-        xhr.open('POST', '/user/update/' + this.id, false);
-        xhr.withCredentials = true;
+        xhr.open('POST', '/user/update/' + this.id);
         xhr.onload = function(evt) {
           if (xhr.status == 200) {
             _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
