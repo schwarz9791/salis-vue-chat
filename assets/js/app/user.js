@@ -74,6 +74,7 @@ if ($('#account').length) {
         var xhr = new XMLHttpRequest();
         var _this = this;
         xhr.open('POST', '/user/create');
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onload = function(evt) {
           if (xhr.status == 200) {
             _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
@@ -128,6 +129,7 @@ if ($('#account').length) {
         var xhr = new XMLHttpRequest();
         var _this = this;
         xhr.open('POST', '/user/update/' + this.id);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onload = function(evt) {
           if (xhr.status == 200) {
             _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
