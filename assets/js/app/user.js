@@ -73,7 +73,7 @@ if ($('#account').length) {
         // io.socket 経由だとFormDataを送れないため、xhrで
         var xhr = new XMLHttpRequest();
         var _this = this;
-        xhr.open('POST', '/user/create');
+        xhr.open('POST', '/user/create', false);
         xhr.withCredentials = true;
         xhr.onload = function(evt) {
           if (xhr.status == 200) {
@@ -128,7 +128,7 @@ if ($('#account').length) {
         // io.socket 経由だとFormDataを送れないため、xhrで
         var xhr = new XMLHttpRequest();
         var _this = this;
-        xhr.open('POST', '/user/update/' + this.id);
+        xhr.open('POST', '/user/update/' + this.id, false);
         xhr.withCredentials = true;
         xhr.onload = function(evt) {
           if (xhr.status == 200) {
