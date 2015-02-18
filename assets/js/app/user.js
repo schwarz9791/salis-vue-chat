@@ -82,7 +82,7 @@ if ($('#account').length) {
               window.location = '/chat';
             }, 500);
           } else {
-            _this.flash.push({ notice: JSON.parse(xhr.response).error, status: 'alert-danger' });
+            _this.flash.push({ notice: xhr.response !== '' ? JSON.parse(xhr.response).error : xhr.statusText, status: 'alert-danger' });
             console.error(JSON.parse(xhr.response).error);
           }
         };
@@ -103,26 +103,26 @@ if ($('#account').length) {
       update: function(e) {
         e.preventDefault();
 
-        var fd = new FormData();
+        var fd = new FormData(e.target);
 
         // フォームのavatar以外全ての入力値をFormDataに追加
-        var formArray = $(e.target).serializeArray();
-        $.each(formArray, function(i, field) {
-          fd.append(field['name'], field['value']);
-        });
+        // var formArray = $(e.target).serializeArray();
+        // $.each(formArray, function(i, field) {
+        //   fd.append(field['name'], field['value']);
+        // });
 
-        if (typeof avatarFile.files[0] !== 'undefined') {
-          var base64 = avatar.src;
-          // Base64からバイナリへ変換
-          var bin = atob(base64.replace(/^.*,/, ''));
-          var buffer = new Uint8Array(bin.length);
-          for (var i = 0; i < bin.length; i++) {
-            buffer[i] = bin.charCodeAt(i);
-          }
-          // Blobを作成
-          var blob = new Blob([buffer.buffer], { type: 'image/png' });
-          fd.append('avatar', blob, 'avatar.png');
-        }
+        // if (typeof avatarFile.files[0] !== 'undefined') {
+        //   var base64 = avatar.src;
+        //   // Base64からバイナリへ変換
+        //   var bin = atob(base64.replace(/^.*,/, ''));
+        //   var buffer = new Uint8Array(bin.length);
+        //   for (var i = 0; i < bin.length; i++) {
+        //     buffer[i] = bin.charCodeAt(i);
+        //   }
+        //   // Blobを作成
+        //   var blob = new Blob([buffer.buffer], { type: 'image/png' });
+        //   fd.append('avatar', blob, 'avatar.png');
+        // }
 
         // サーバに POST /user/update としてリクエストする
         // io.socket 経由だとFormDataを送れないため、xhrで
@@ -134,7 +134,7 @@ if ($('#account').length) {
           if (xhr.status == 200) {
             _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
           } else {
-            _this.flash.push({ notice: JSON.parse(xhr.response).error, status: 'alert-danger' });
+            _this.flash.push({ notice: xhr.response !== '' ? JSON.parse(xhr.response).error : xhr.statusText, status: 'alert-danger' });
             console.error(JSON.parse(xhr.response).error);
           }
         };
