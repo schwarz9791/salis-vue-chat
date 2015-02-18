@@ -103,26 +103,26 @@ if ($('#account').length) {
       update: function(e) {
         e.preventDefault();
 
-        var fd = new FormData(e.target);
+        var fd = new FormData();
 
         // フォームのavatar以外全ての入力値をFormDataに追加
-        // var formArray = $(e.target).serializeArray();
-        // $.each(formArray, function(i, field) {
-        //   fd.append(field['name'], field['value']);
-        // });
+        var formArray = $(e.target).serializeArray();
+        $.each(formArray, function(i, field) {
+          fd.append(field['name'], field['value']);
+        });
 
-        // if (typeof avatarFile.files[0] !== 'undefined') {
-        //   var base64 = avatar.src;
-        //   // Base64からバイナリへ変換
-        //   var bin = atob(base64.replace(/^.*,/, ''));
-        //   var buffer = new Uint8Array(bin.length);
-        //   for (var i = 0; i < bin.length; i++) {
-        //     buffer[i] = bin.charCodeAt(i);
-        //   }
-        //   // Blobを作成
-        //   var blob = new Blob([buffer.buffer], { type: 'image/png' });
-        //   fd.append('avatar', blob, 'avatar.png');
-        // }
+        if (typeof avatarFile.files[0] !== 'undefined') {
+          var base64 = avatar.src;
+          // Base64からバイナリへ変換
+          var bin = atob(base64.replace(/^.*,/, ''));
+          var buffer = new Uint8Array(bin.length);
+          for (var i = 0; i < bin.length; i++) {
+            buffer[i] = bin.charCodeAt(i);
+          }
+          // Blobを作成
+          var blob = new Blob([buffer.buffer], { type: 'image/png' });
+          fd.append('avatar', blob, 'avatar.png');
+        }
 
         // サーバに POST /user/update としてリクエストする
         // io.socket 経由だとFormDataを送れないため、xhrで
