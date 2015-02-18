@@ -2,6 +2,9 @@
   "name": "sails-vue-chat",
   "private": true,
   "version": "0.0.1",
+  "engines": {
+    "node": "0.10.x"
+  },
   "description": "a Sails.js + Vue.js sample application",
   "keywords": [],
   "dependencies": {
