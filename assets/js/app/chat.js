@@ -84,7 +84,7 @@ if ($('#chat').length) {
         _this.messages.splice(message.$index, 1)[0];
 
         // サーバに DELETE /message/:id としてリクエストする
-        io.socket.get('/message/destroy/'+ message.id, function (res, JWR) {
+        io.socket.delete('/message/'+ message.id, function (res, JWR) {
           if (res.error) return console.error(res.error);
           _this.flash.push({ notice: JSON.parse(res).flash, status: 'alert-success' });
         });
