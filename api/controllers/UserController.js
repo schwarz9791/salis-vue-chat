@@ -63,8 +63,8 @@ module.exports = {
           .exec(function(err, user) {
             if (err) return res.negotiate(err);
             console.log('Updated user.\n' + JSON.stringify(user));
-            if (req.wantsJSON) return res.json({ flash: 'Updated your data.', user: user });
-            return res.redirect('/user/edit');
+            return res.json({ flash: 'Updated your data.', user: user });
+            // return res.redirect('/user/edit');
           });
         });
       });
