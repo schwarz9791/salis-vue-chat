@@ -84,9 +84,9 @@ if ($('#chat').length) {
         _this.messages.splice(message.$index, 1)[0];
 
         // サーバに DELETE /message/:id としてリクエストする
-        io.socket.delete('/message/'+ message.id, function (res, JWR) {
+        io.socket.delete('/message/'+ message.id, { _csrf: this.csrf }, function (res, JWR) {
           if (res.error) return console.error(res.error);
-          _this.flash.push({ notice: JSON.parse(res).flash, status: 'alert-success' });
+          _this.flash.push({ notice: res.flash, status: 'alert-success' });
         });
       },
 
@@ -111,6 +111,11 @@ if ($('#chat').length) {
             _this.messages.push(message);
           });
         });
+      },
+
+      alertDismiss: function(notice) {
+        // console.log(notice);
+        this.flash.splice(notice.$index, 1)[0];
       }
     }
   });
