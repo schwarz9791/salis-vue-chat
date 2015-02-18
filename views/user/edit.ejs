@@ -1,12 +1,14 @@
 <div id="account">
   <div class="container">
-    <div v-repeat="flash" v-attr="class: 'alert ' + status" role="alert" v-cloak>
-      <button type="button" class="close" v-on="click: alertDismiss(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      {{notice}}
-    </div>
     <div class="row">
       <div class="col-md-3"></div>
       <div class="col-md-6">
+        <!-- notice -->
+        <div v-repeat="flash" v-attr="class: 'alert ' + status" role="alert" v-cloak>
+          <button type="button" class="close" v-on="click: alertDismiss(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          {{notice}}
+        </div>
+        <!-- notice end -->
         <form action="/user/update/{{id}}" enctype="multipart/form-data" method="post" v-on="submit: update">
           <input type="hidden" name="_csrf" value="<%= _csrf %>" v-model="csrf">
           <div class="login">

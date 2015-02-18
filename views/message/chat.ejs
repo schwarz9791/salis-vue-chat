@@ -47,6 +47,12 @@
       </div>
       </div>
       <div class="col-sm-8 col-sm-offset-4" style="margin-bottom: 80px;">
+        <!-- notice -->
+        <div v-repeat="flash" v-attr="class: 'alert ' + status" role="alert" v-cloak>
+          <button type="button" class="close" v-on="click: alertDismiss(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          {{notice}}
+        </div>
+        <!-- notice end -->
         <div class="media" v-repeat="messages" v-cloak track-by="id">
           <a class="media-left" href="#" v-if="!isOwner(owner.id)">
             <div class="avatar-box">
@@ -54,7 +60,7 @@
               <img class="avatar" v-if="hasAvatar(owner.avatar)" v-attr= "src: '/avatar/' + owner.avatar" alt="avatar">
             </div>
           </a>
-          <div class="media-body" style="width:100%;">
+          <div id="mes-{{id}}" class="media-body" style="width:100%;">
             <div class="small text-muted pull-right">{{createdAt | fromNow}}</div>
             <h4 class="media-heading">{{owner.username}}</h4>
             {{body}}

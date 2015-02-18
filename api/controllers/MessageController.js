@@ -58,6 +58,7 @@ module.exports = {
     .exec(function(err){
       if (err) return res.serverError();
       Message.publishDestroy(req.param('id'));
+      return res.json({ flash: 'Message deleted.' })
     });
   },
 
