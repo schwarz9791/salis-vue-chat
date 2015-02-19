@@ -66,17 +66,7 @@ config/local.js
 # 
 ################################################
 
-node_modules/bcrypt
-node_modules/connect-redis
-node_modules/ejs
-node_modules/gm
-node_modules/grunt*
-node_modules/include-all
-node_modules/passport*
-node_modules/rc
-node_modules/sails-*
-node_modules/skipper*
-node_modules/socket.io-redis
+node_modules
 bower_components
 
 
