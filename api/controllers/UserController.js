@@ -38,6 +38,8 @@ module.exports = {
   update: function(req, res) {
     console.log(req.body);
     console.log(req.xhr);
+    console.log(req.params.all());
+    console.log(req.files);
     User.findOne(req.params.id).exec(function(err, user) {
       User.checkPassword(req.body.password, user, function(err) {
         if (err) return res.send(422, err);

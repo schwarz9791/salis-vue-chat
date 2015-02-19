@@ -76,6 +76,7 @@ if ($('#account').length) {
         xhr.open('POST', '/user/create' ,true);
         xhr.withCredentials = true;
         xhr.setRequestHeader('X-CSRF-Token', this.csrf);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.onload = function(evt) {
           if (xhr.status == 200) {
             _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
@@ -132,6 +133,7 @@ if ($('#account').length) {
         xhr.open('POST', '/user/update/' + this.id, true);
         xhr.withCredentials = true;
         xhr.setRequestHeader('X-CSRF-Token', this.csrf);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.onload = function(evt) {
           if (xhr.status == 200) {
             _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
