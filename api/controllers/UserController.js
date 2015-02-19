@@ -11,8 +11,7 @@ module.exports = {
       adapter: require(sails.config.connections.s3Adapter.adapter),
       key: sails.config.connections.s3Adapter.key,
       secret: sails.config.connections.s3Adapter.secret,
-      bucket: sails.config.connections.s3Adapter.bucket,
-      maxBytes: 300000
+      bucket: sails.config.connections.s3Adapter.bucket
     }, function whenDone(err, uploadedFiles) {
       if (err) return res.negotiate(err);
 
@@ -37,7 +36,8 @@ module.exports = {
   },
 
   update: function(req, res) {
-    console.log(req.body)
+    console.log(req.body);
+    console.log(req.xhr);
     User.findOne(req.params.id).exec(function(err, user) {
       User.checkPassword(req.body.password, user, function(err) {
         if (err) return res.send(422, err);
@@ -46,8 +46,7 @@ module.exports = {
           adapter: require(sails.config.connections.s3Adapter.adapter),
           key: sails.config.connections.s3Adapter.key,
           secret: sails.config.connections.s3Adapter.secret,
-          bucket: sails.config.connections.s3Adapter.bucket,
-          maxBytes: 300000
+          bucket: sails.config.connections.s3Adapter.bucket
         }, function whenDone(err, uploadedFiles) {
           if (err) return res.negotiate(err);
           if (uploadedFiles.length === 0) {
