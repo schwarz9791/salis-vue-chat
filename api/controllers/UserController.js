@@ -29,7 +29,7 @@ module.exports = {
           // req.user -> user -> When new LocalStrategy, Callback user Object
           req.session.authenticated = req.isAuthenticated();
           if (req.wantsJSON) return res.json({ flash: 'Successful in creating a new user.', user: user });
-          return res.redirect('/chat');
+          // return res.redirect('/chat');
         });
       });
     });
