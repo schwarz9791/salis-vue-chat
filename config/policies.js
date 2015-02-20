@@ -26,41 +26,29 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  // '*': false,
-  '*': 'enforceSsl',
+  '*': false,
 
   message: {
-    // '*': 'sessionAuth',
-    // 'chat': 'loginAuth'
-    '*': ['sessionAuth', 'enforceSsl'],
-    'chat': ['loginAuth', 'enforceSsl']
+    '*': 'sessionAuth',
+    'chat': 'loginAuth'
   },
 
   auth: {
-    // '*': true
-    '*': 'enforceSsl'
+    '*': true
   },
 
   user: {
-    // '*': true,
-    // 'current': true,
-    // 'create': true,
-    // 'update': 'sessionAuth',
-    // 'destroy': 'sessionAuth',
-    // 'edit': 'loginAuth'
-    '*': 'enforceSsl',
-    'current': 'enforceSsl',
-    'create': 'enforceSsl',
-    'update': ['sessionAuth', 'enforceSsl'],
-    'destroy': ['sessionAuth', 'enforceSsl'],
-    'edit': ['loginAuth', 'enforceSsl']
+    '*': true,
+    'current': true,
+    'create': true,
+    'update': 'sessionAuth',
+    'destroy': 'sessionAuth',
+    'edit': 'loginAuth'
   },
 
   avatar: {
-    // 'get': true,
-    // 'remove': 'sessionAuth'
-    'get': 'enforceSsl',
-    'remove': ['sessionAuth', 'enforceSsl']
+    'get': true,
+    'remove': 'sessionAuth'
   }
 
   /***************************************************************************
