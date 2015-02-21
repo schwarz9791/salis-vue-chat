@@ -127,28 +127,60 @@ if ($('#account').length) {
 
         // サーバに POST /user/update としてリクエストする
         // io.socket 経由だとFormDataを送れないため、xhrで
-        var xhr = new XMLHttpRequest();
         var _this = this;
-        xhr.open('POST', '/user/update/' + this.id, true);
-        xhr.withCredentials = true;
-        xhr.setRequestHeader('X-CSRF-Token', this.csrf);
-        xhr.onload = function(evt) {
-          if (xhr.status == 200) {
-            _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
-          } else {
-            _this.flash.push({ notice: xhr.response !== '' ? JSON.parse(xhr.response).error : xhr.statusText, status: 'alert-danger' });
-            console.error(JSON.parse(xhr.response).error);
+
+        $.ajax({
+          url: '/user/update/' + this.id,
+          data: fd,
+          processData: false,
+          contentType: false,
+          type: 'POST',
+          success: function(res) {
+            console.log(res);
+            _this.flash.push({ notice: res.flash, status: 'alert-success' });
+          },
+          error: function(res) {
+            _this.flash.push({ notice: res.responseJSON.error, status: 'alert-danger' });
           }
-        };
-        xhr.send(fd);
-        // io.socket.post('/user/update/' + this.id, fd, function (res) {
+        });
+        // var xhr = new XMLHttpRequest();
+        // var _this = this;
+        // xhr.open('POST', '/user/update/' + this.id, true);
+        // xhr.withCredentials = true;
+        // xhr.setRequestHeader('X-CSRF-Token', this.csrf);
+        // xhr.onload = function(evt) {
+        //   if (xhr.status == 200) {
+        //     _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
+        //   } else {
+        //     _this.flash.push({ notice: xhr.response !== '' ? JSON.parse(xhr.response).error : xhr.statusText, status: 'alert-danger' });
+        //     console.error(JSON.parse(xhr.response).error);
+        //   }
+        // };
+        // xhr.send(fd);
+        // io.socket.post('/user/update/' + this.id, {
+        //   _csrf: this.csrf,
+        //   username: this.username,
+        //   password: this.password,
+        //   new_password: this.new_password,
+        //   avatar: blob
+        // }, function (res) {
         //   if (res.error) return console.error(res.error);
         // });
         // io.socket.request({
         //   url: '/user/update/' + this.id,
         //   method: 'post',
         //   params: fd,
-        //   headers: { 'Content-type': 'multipart/form-data' }
+        //   params: {
+        //     _csrf: this.csrf,
+        //     username: this.username,
+        //     password: this.password,
+        //     new_password: this.new_password,
+        //     avatar: blob
+        //   },
+        //   headers: {
+        //     'Content-type': 'multipart/form-data',
+        //     'X-CSRF-Token': this.csrf
+        //   }
         // }, function (res) {
         //   if (res.error) return console.error(res.error);
         // });
