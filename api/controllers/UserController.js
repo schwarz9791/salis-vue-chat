@@ -11,7 +11,8 @@ module.exports = {
       adapter: require(sails.config.connections.s3Adapter.adapter),
       key: sails.config.connections.s3Adapter.key,
       secret: sails.config.connections.s3Adapter.secret,
-      bucket: sails.config.connections.s3Adapter.bucket
+      bucket: sails.config.connections.s3Adapter.bucket,
+      maxBytes: 3 * 1000 * 1000
     }, function whenDone(err, uploadedFiles) {
       if (err) return res.negotiate(err);
 
@@ -44,7 +45,8 @@ module.exports = {
           adapter: require(sails.config.connections.s3Adapter.adapter),
           key: sails.config.connections.s3Adapter.key,
           secret: sails.config.connections.s3Adapter.secret,
-          bucket: sails.config.connections.s3Adapter.bucket
+          bucket: sails.config.connections.s3Adapter.bucket,
+          maxBytes: 3 * 1000 * 1000
         }, function whenDone(err, uploadedFiles) {
           if (err) return res.negotiate(err);
           if (uploadedFiles.length === 0) {
