@@ -127,36 +127,36 @@ if ($('#account').length) {
 
         // サーバに POST /user/update としてリクエストする
         // io.socket 経由だとFormDataを送れないため、xhrで
-        var _this = this;
-
-        $.ajax({
-          url: '/user/update/' + this.id,
-          data: fd,
-          processData: false,
-          contentType: false,
-          type: 'POST',
-          success: function(res) {
-            console.log(res);
-            _this.flash.push({ notice: res.flash, status: 'alert-success' });
-          },
-          error: function(res) {
-            _this.flash.push({ notice: res.responseJSON.error, status: 'alert-danger' });
-          }
-        });
-        // var xhr = new XMLHttpRequest();
         // var _this = this;
-        // xhr.open('POST', '/user/update/' + this.id, true);
-        // xhr.withCredentials = true;
-        // xhr.setRequestHeader('X-CSRF-Token', this.csrf);
-        // xhr.onload = function(evt) {
-        //   if (xhr.status == 200) {
-        //     _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
-        //   } else {
-        //     _this.flash.push({ notice: xhr.response !== '' ? JSON.parse(xhr.response).error : xhr.statusText, status: 'alert-danger' });
-        //     console.error(JSON.parse(xhr.response).error);
+
+        // $.ajax({
+        //   url: '/user/update/' + this.id,
+        //   data: fd,
+        //   processData: false,
+        //   contentType: false,
+        //   type: 'POST',
+        //   success: function(res) {
+        //     console.log(res);
+        //     _this.flash.push({ notice: res.flash, status: 'alert-success' });
+        //   },
+        //   error: function(res) {
+        //     _this.flash.push({ notice: res.responseJSON.error, status: 'alert-danger' });
         //   }
-        // };
-        // xhr.send(fd);
+        // });
+        var xhr = new XMLHttpRequest();
+        var _this = this;
+        xhr.open('POST', '/user/update/' + this.id, true);
+        xhr.withCredentials = true;
+        xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+        xhr.onload = function(evt) {
+          if (xhr.status == 200) {
+            _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
+          } else {
+            _this.flash.push({ notice: xhr.response !== '' ? xhr.responseJSON.error : xhr.statusText, status: 'alert-danger' });
+            // console.error(xhr.responseJSON.error);
+          }
+        };
+        xhr.send(fd);
         // io.socket.post('/user/update/' + this.id, {
         //   _csrf: this.csrf,
         //   username: this.username,
@@ -201,7 +201,7 @@ if ($('#account').length) {
         fr.onload = function(evt) {
           // 画像がloadされた後に、canvasに描画する
           img.onload = function() {
-            var max = 200;
+            var max = 120;
             if (img.width > max && img.height > max) {
               var orig_w = img.width;
               var orig_h = img.height;
