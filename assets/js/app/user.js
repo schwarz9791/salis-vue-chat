@@ -37,7 +37,7 @@ if ($('#account').length) {
 
     created: function() {
       var _this = this;
-      
+
       io.socket.get('/user/current', function (res, JWR) {
         _this.id = res.id;
         _this.username = res.username;
@@ -135,7 +135,7 @@ if ($('#account').length) {
 
                 // xhrでFormDataを送信
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/user/set_avatar/' + _this.id, true);
+                xhr.open('POST', 'http://' + location.host + '/user/set_avatar/' + _this.id, true);
                 xhr.withCredentials = true;
                 xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
                 xhr.onload = function(evt) {
