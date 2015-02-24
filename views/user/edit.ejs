@@ -9,9 +9,23 @@
           {{notice}}
         </div>
         <!-- notice end -->
-        <form action="/user/update/{{id}}" enctype="multipart/form-data" method="post" v-on="submit: update">
-          <input type="hidden" name="_csrf" value="<%= _csrf %>" v-model="csrf">
-          <div class="login">
+        <div class="login">
+          <div class="form-group clearfix">
+            <div class="col-xs-3">
+              <div class="avatar-box">
+                <span id="loadingIcon" class="glyphicon glyphicon-repeat spinner loading hidden"></span>
+                <img id="avatar" v-if="!has_avatar" src="/images/unknown-avatar.png" alt="avatar">
+                <img id="avatar" v-if="has_avatar" v-attr= "src: '/avatar/' + avatar" alt="avatar">
+                <canvas id="tmpCanvas" width="200" height="200"></canvas>
+              </div>
+            </div>
+            <div class="col-xs-9">
+              <label class="control-label" for="avatar">Avatar Image</label>
+              <input class="form-control" id="avatarFile" type="file" name="avatar" v-on="change: setAvatar">
+            </div>
+          </div>
+          <form action="/user/update/{{id}}" enctype="multipart/form-data" method="post" v-on="submit: update">
+            <input type="hidden" name="_csrf" value="<%= _csrf %>" v-model="csrf">
             <div class="form-group">
               <label class="control-label" for="username">User Name</label>
               <input class="form-control" id="username" type="text" name="username" placeholder="Input Login User Name" v-model="username" v-attr="value: username" value="" autofocus required>
@@ -28,24 +42,10 @@
               <label class="control-label" for="password">Confirm New Password</label>
               <input class="form-control" id="confirm" type="password" name="confirm" placeholder="Confirm Login Password" v-model="confirm" value="">
             </div>
-            <div class="form-group clearfix">
-              <div class="col-xs-3">
-                <div class="avatar-box">
-                  <span id="loadingIcon" class="glyphicon glyphicon-repeat spinner loading hidden"></span>
-                  <img id="avatar" v-if="!has_avatar" src="/images/unknown-avatar.png" alt="avatar">
-                  <img id="avatar" v-if="has_avatar" v-attr= "src: '/avatar/' + avatar" alt="avatar">
-                  <canvas id="tmpCanvas" width="120" height="120"></canvas>
-                </div>
-              </div>
-              <div class="col-xs-9">
-                <label class="control-label" for="avatar">Avatar Image</label>
-                <input class="form-control" id="avatarFile" type="file" name="avatar" v-on="change: setAvatar">
-              </div>
-            </div>
             <button class="btn btn-primary" type="submit" v-class="disabled: has_error">Update</button>
             <a class="pull-right" href="/chat">Return chat</a>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
       <div class="col-md-3"></div>
     </div>

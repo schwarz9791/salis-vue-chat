@@ -53,12 +53,16 @@ module.exports = {
       delete user.confirm;
       delete user.new_password;
 
-      hashedPassword(pass, function(err, hash) {
-        if (err) return cb(err);
-        console.log('Password updated')
-        user.password = hash;
+      if (pass) {
+          hashedPassword(pass, function(err, hash) {
+          if (err) return cb(err);
+          console.log('Password updated')
+          user.password = hash;
+          return cb(null, user);
+        });
+      } else {
         return cb(null, user);
-      });
+      }
     },
 
     checkPassword: function(pass, user, cb) {

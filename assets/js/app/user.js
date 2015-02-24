@@ -37,6 +37,7 @@ if ($('#account').length) {
 
     created: function() {
       var _this = this;
+      
       io.socket.get('/user/current', function (res, JWR) {
         _this.id = res.id;
         _this.username = res.username;
@@ -45,149 +46,39 @@ if ($('#account').length) {
     },
 
     methods: {
-      create: function(e) {
-        e.preventDefault();
+      // create: function(e) {
+      //   e.preventDefault();
 
-        var fd = new FormData();
+      //   var _this = this;
 
-        // フォームのavatar以外全ての入力値をFormDataに追加
-        var formArray = $(e.target).serializeArray();
-        $.each(formArray, function(i, field) {
-          fd.append(field['name'], field['value']);
-        });
-
-        if (typeof avatarFile.files[0] !== 'undefined') {
-          var base64 = avatar.src;
-          // Base64からバイナリへ変換
-          var bin = atob(base64.replace(/^.*,/, ''));
-          var buffer = new Uint8Array(bin.length);
-          for (var i = 0; i < bin.length; i++) {
-            buffer[i] = bin.charCodeAt(i);
-          }
-          // Blobを作成
-          var blob = new Blob([buffer.buffer], { type: 'image/png' });
-          fd.append('avatar', blob, 'avatar.png');
-        }
-
-        // サーバに POST /user/create としてリクエストする
-        // io.socket 経由だとFormDataを送れないため、xhrで
-        var xhr = new XMLHttpRequest();
-        var _this = this;
-        xhr.open('POST', '/user/create' ,true);
-        xhr.withCredentials = true;
-        xhr.setRequestHeader('X-CSRF-Token', this.csrf);
-        xhr.onload = function(evt) {
-          if (xhr.status == 200) {
-            _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
-            setTimeout(function(){
-              window.location = '/chat';
-            }, 500);
-          } else {
-            _this.flash.push({ notice: xhr.response !== '' ? JSON.parse(xhr.response).error : xhr.statusText, status: 'alert-danger' });
-            console.error(JSON.parse(xhr.response).error);
-          }
-        };
-        xhr.send(fd);
-        // io.socket.post('/user/create', fd , function (res) {
-        //   if (res.error) return console.error(res.error);
-        // });
-        // io.socket.request({
-        //   url: '/user/create',
-        //   method: 'post',
-        //   params: fd,
-        //   headers: { 'Content-type': 'multipart/form-data' }
-        // }, function (res) {
-        //   if (res.error) return console.error(res.error);
-        // });
-      },
+      //   io.socket.post('/user/create', {
+      //     _csrf: this.csrf,
+      //     username: this.username,
+      //     password: this.password
+      //   }, function (res) {
+      //     if (res.error) return _this.flash.push({ notice: res.error, status: 'alert-danger' });
+      //   });
+      // },
 
       update: function(e) {
         e.preventDefault();
 
-        var fd = new FormData();
-
-        // フォームのavatar以外全ての入力値をFormDataに追加
-        var formArray = $(e.target).serializeArray();
-        $.each(formArray, function(i, field) {
-          fd.append(field['name'], field['value']);
-        });
-
-        if (typeof avatarFile.files[0] !== 'undefined') {
-          var base64 = avatar.src;
-          // Base64からバイナリへ変換
-          var bin = atob(base64.replace(/^.*,/, ''));
-          var buffer = new Uint8Array(bin.length);
-          for (var i = 0; i < bin.length; i++) {
-            buffer[i] = bin.charCodeAt(i);
-          }
-          // Blobを作成
-          var blob = new Blob([buffer.buffer], { type: 'image/png' });
-          fd.append('avatar', blob, 'avatar.png');
-        }
-
-        // サーバに POST /user/update としてリクエストする
-        // io.socket 経由だとFormDataを送れないため、xhrで
-        // var _this = this;
-
-        // $.ajax({
-        //   url: '/user/update/' + this.id,
-        //   data: fd,
-        //   processData: false,
-        //   contentType: false,
-        //   type: 'POST',
-        //   success: function(res) {
-        //     console.log(res);
-        //     _this.flash.push({ notice: res.flash, status: 'alert-success' });
-        //   },
-        //   error: function(res) {
-        //     _this.flash.push({ notice: res.responseJSON.error, status: 'alert-danger' });
-        //   }
-        // });
-        var xhr = new XMLHttpRequest();
         var _this = this;
-        xhr.open('POST', '/user/update/' + this.id, true);
-        xhr.withCredentials = true;
-        xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
-        xhr.onload = function(evt) {
-          if (xhr.status == 200) {
-            _this.flash.push({ notice: JSON.parse(xhr.response).flash, status: 'alert-success' });
-          } else {
-            _this.flash.push({ notice: xhr.response !== '' ? xhr.responseJSON.error : xhr.statusText, status: 'alert-danger' });
-            // console.error(xhr.responseJSON.error);
-          }
-        };
-        xhr.send(fd);
-        // io.socket.post('/user/update/' + this.id, {
-        //   _csrf: this.csrf,
-        //   username: this.username,
-        //   password: this.password,
-        //   new_password: this.new_password,
-        //   avatar: blob
-        // }, function (res) {
-        //   if (res.error) return console.error(res.error);
-        // });
-        // io.socket.request({
-        //   url: '/user/update/' + this.id,
-        //   method: 'post',
-        //   params: fd,
-        //   params: {
-        //     _csrf: this.csrf,
-        //     username: this.username,
-        //     password: this.password,
-        //     new_password: this.new_password,
-        //     avatar: blob
-        //   },
-        //   headers: {
-        //     'Content-type': 'multipart/form-data',
-        //     'X-CSRF-Token': this.csrf
-        //   }
-        // }, function (res) {
-        //   if (res.error) return console.error(res.error);
-        // });
+
+        io.socket.post('/user/update/' + this.id, {
+          _csrf: this.csrf,
+          username: this.username,
+          password: this.password,
+          new_password: this.new_password
+        }, function (res) {
+          if (res.error) return _this.flash.push({ notice: res.error, status: 'alert-danger' });
+          if (res) _this.flash.push({ notice: res.flash, status: 'alert-success' });
+        });
       },
 
       setAvatar: function(e) {
         var file = e.target.files[0];
+        var _this = this;
         
         if (!file.type.match(/^image\/(png|jpeg|gif)$/)) return;
         avatar.classList.add('hidden');
@@ -197,11 +88,12 @@ if ($('#account').length) {
         var fr = new FileReader();
         var ctx = tmpCanvas.getContext('2d');
         ctx.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
+
         // File APIを使用し、ローカルファイルを読み込む
         fr.onload = function(evt) {
           // 画像がloadされた後に、canvasに描画する
           img.onload = function() {
-            var max = 120;
+            var max = 200;
             if (img.width > max && img.height > max) {
               var orig_w = img.width;
               var orig_h = img.height;
@@ -224,6 +116,37 @@ if ($('#account').length) {
               avatar.src = ctx.canvas.toDataURL('image/png');
               loadingIcon.classList.add('hidden');
               avatar.classList.remove('hidden');
+
+              avatar.onload = function() {
+                var base64 = avatar.src;
+                // Base64からバイナリへ変換
+                var bin = atob(base64.replace(/^.*,/, ''));
+                var buffer = new Uint8Array(bin.length);
+                for (var i = 0; i < bin.length; i++) {
+                    buffer[i] = bin.charCodeAt(i);
+                }
+                // Blobを作成
+                var blob = new Blob([buffer.buffer], { type: 'image/png' });
+
+                // FormData生成
+                var fd = new FormData();
+                fd.append('_csrf', _this.csrf);
+                fd.append('avatar', blob, 'avatar.png');
+
+                // xhrでFormDataを送信
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/user/set_avatar/' + _this.id, true);
+                xhr.withCredentials = true;
+                xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+                xhr.onload = function(evt) {
+                  if (xhr.status == 200) {
+                    if (xhr.responseJSON) _this.flash.push({ notice: xhr.responseJSON.flash, status: 'alert-success' });
+                  } else {
+                    _this.flash.push({ notice: xhr.responseJSON ? xhr.responseJSON.error : xhr.statusText, status: 'alert-danger' });
+                  }
+                };
+                xhr.send(fd);
+              }
             }, 0);
           }
           // 画像のURLをソースに設定

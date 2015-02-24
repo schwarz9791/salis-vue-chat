@@ -41,6 +41,7 @@ module.exports.policies = {
     '*': true,
     'current': true,
     'create': true,
+    'set_avatar': 'sessionAuth',
     'update': 'sessionAuth',
     'destroy': 'sessionAuth',
     'edit': 'loginAuth'

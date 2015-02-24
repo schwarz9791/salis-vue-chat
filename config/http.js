@@ -65,7 +65,7 @@ module.exports.http = {
           console.log("RequestBody :: ", req.body);
         }
         return next();
-    }
+    },
 
 
   /***************************************************************************

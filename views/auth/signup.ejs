@@ -9,8 +9,8 @@
           {{notice}}
         </div>
         <!-- notice end -->
-        <form action="/user/create" enctype="multipart/form-data" method="post" v-on="submit: create">
-          <input type="hidden" name="_csrf" value="<%= _csrf %>">
+        <form action="/user/create" enctype="multipart/form-data" method="post">
+          <input type="hidden" name="_csrf" value="<%= _csrf %>" v-model="csrf">
           <div class="login">
             <div class="form-group">
               <label class="control-label" for="username">User Name</label>
@@ -23,19 +23,6 @@
             <div class="form-group" v-class="has-error: has_confirm_error">
               <label class="control-label" for="password">Confirm Password</label>
               <input class="form-control" id="confirm" type="password" name="confirm" placeholder="Confirm Login Password" v-model="confirm" value="" required>
-            </div>
-            <div class="form-group clearfix">
-              <div class="col-xs-3">
-                <div class="avatar-box">
-                  <span id="loadingIcon" class="glyphicon glyphicon-repeat spinner loading hidden"></span>
-                  <img id="avatar" src="/images/unknown-avatar.png" alt="avatar">
-                  <canvas id="tmpCanvas" width="120" height="120"></canvas>
-                </div>
-              </div>
-              <div class="col-xs-9">
-                <label class="control-label" for="avatar">Avatar Image</label>
-                <input class="form-control" id="avatarFile" type="file" name="avatar" v-on="change: setAvatar">
-              </div>
             </div>
             <button class="btn btn-primary" type="submit" v-class="disabled: has_error">Create</button>
           </div>  
