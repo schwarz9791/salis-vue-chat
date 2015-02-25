@@ -135,7 +135,7 @@ if ($('#account').length) {
 
                 // xhrでFormDataを送信
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', 'http://' + location.host + '/user/set_avatar/' + _this.id, true);
+                xhr.open('POST', '/user/set_avatar/' + _this.id, true);
                 xhr.withCredentials = true;
                 xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
                 xhr.onload = function(evt) {
