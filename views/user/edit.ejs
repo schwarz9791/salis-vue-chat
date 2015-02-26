@@ -16,12 +16,17 @@
                 <span id="loadingIcon" class="glyphicon glyphicon-repeat spinner loading hidden"></span>
                 <img id="avatar" v-if="!has_avatar" src="/images/unknown-avatar.png" alt="avatar">
                 <img id="avatar" v-if="has_avatar" v-attr= "src: '/avatar/' + avatar" alt="avatar">
+                <div class="progress avatar-progress" v-class="invisible: !upload_progress">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" v-style="width: upload_progress + '%'">
+                    <span class="sr-only">{{ upload_progress }}% Complete</span>
+                  </div>
+                </div>
                 <canvas id="tmpCanvas" width="200" height="200"></canvas>
               </div>
             </div>
             <div class="col-xs-9">
               <label class="control-label" for="avatar">Avatar Image</label>
-              <input class="form-control" id="avatarFile" type="file" name="avatar" v-on="change: setAvatar">
+              <input class="form-control" id="avatarFile" type="file" name="avatar" v-on="change: updateAvatar">
             </div>
           </div>
           <form action="/user/update/{{id}}" enctype="multipart/form-data" method="post" v-on="submit: update">

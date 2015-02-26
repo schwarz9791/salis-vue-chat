@@ -49,8 +49,9 @@ module.exports.policies = {
 
   avatar: {
     'get': true,
-    'remove': 'sessionAuth'
-  }
+    'remove': 'sessionAuth',
+    'sign_s3': true
+  },
 
   /***************************************************************************
   *                                                                          *

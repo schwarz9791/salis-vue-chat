@@ -51,6 +51,11 @@ module.exports.routes = {
     action: 'get'
   },
 
+  '/sign_s3': {
+    controller: 'avatar',
+    action: 'sign_s3'
+  },
+
   /***************************************************************************
   *                                                                          *
   * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *

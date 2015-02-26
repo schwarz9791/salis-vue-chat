@@ -44,32 +44,38 @@ module.exports = {
     User.findOne(req.session.passport.user).exec(function(err, user){
       if (err) res.json({ error: "Required login to setting the avatar." });
 
-      req.file('avatar').upload({
-        adapter: require(sails.config.connections.s3Adapter.adapter),
-        key: sails.config.connections.s3Adapter.key,
-        secret: sails.config.connections.s3Adapter.secret,
-        bucket: sails.config.connections.s3Adapter.bucket
-      }, function whenDone(err, uploadedFiles) {
-        if (err) return res.negotiate(err);
+      // req.file('avatar').upload({
+      //   adapter: require(sails.config.connections.s3Adapter.adapter),
+      //   key: sails.config.connections.s3Adapter.key,
+      //   secret: sails.config.connections.s3Adapter.secret,
+      //   bucket: sails.config.connections.s3Adapter.bucket
+      // }, function whenDone(err, uploadedFiles) {
+      //   if (err) return res.negotiate(err);
 
-        if (uploadedFiles.length === 0) {
-          req.body.avatar = user.avatar;
-        } else {
-          req.body.avatar = uploadedFiles[0].fd;
-          if (user.avatar) {
-            Avatar.remove(user.avatar, function(err) {
-              console.log('The record has been deleted');
-            });
-          }
+      //   if (uploadedFiles.length === 0) {
+      //     req.body.avatar = user.avatar;
+      //   } else {
+      //     req.body.avatar = uploadedFiles[0].fd;
+      //     if (user.avatar) {
+      //       Avatar.remove(user.avatar, function(err) {
+      //         console.log('The record has been deleted');
+      //       });
+      //     }
+      //   }
+
+        if (user.avatar) {
+          Avatar.remove(user.avatar, function(err) {
+            console.log('The image has been deleted');
+          });
         }
 
         User.update(req.params.id, req.body)
         .exec(function(err, user) {
-          if (err) return res.negotiate(err);
+          if (err) return res.json({ status: 'error', flash: negotiate(err) });
           console.log('Updated avatar.\n' + JSON.stringify(user));
-          if (req.wantsJSON) return res.ok();
+          return res.json({ status: 'success', flash: 'Avatar image updated.' });
         });
-      });
+      // });
     });
   },
 

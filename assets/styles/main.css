@@ -42,6 +42,14 @@ body {
   display: none;
 }
 
+.avatar-progress {
+  height: 8px;
+  left: 4px;
+  position: absolute;
+  top: 55px;
+  width: 90%;
+}
+
 @media (max-width: 768px) {
   .navbar-brand {
     font-size: 15px;

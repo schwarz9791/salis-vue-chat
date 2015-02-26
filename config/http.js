@@ -30,24 +30,24 @@ module.exports.http = {
   *                                                                          *
   ***************************************************************************/
 
-    order: [
-      'startRequestTimer',
-      'cookieParser',
-      'session',
-      'myRequestLogger',
-      'bodyParser',
-      'handleBodyParserError',
-      'myRequestLogger2',
-      'compress',
-      'methodOverride',
-      'poweredBy',
-      '$custom',
-      'router',
-      'www',
-      'favicon',
-      '404',
-      '500'
-    ],
+    // order: [
+    //   'startRequestTimer',
+    //   'cookieParser',
+    //   'session',
+    //   'myRequestLogger',
+    //   'bodyParser',
+    //   'handleBodyParserError',
+    //   'myRequestLogger2',
+    //   'compress',
+    //   'methodOverride',
+    //   'poweredBy',
+    //   '$custom',
+    //   'router',
+    //   'www',
+    //   'favicon',
+    //   '404',
+    //   '500'
+    // ],
 
   /****************************************************************************
   *                                                                           *
@@ -55,17 +55,17 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
-    myRequestLogger: function (req, res, next) {
-        if (req.method == 'POST') console.log("Requested :: ", req);
-        return next();
-    },
+    // myRequestLogger: function (req, res, next) {
+    //     if (req.method == 'POST') console.log("Requested :: ", req.headers);
+    //     return next();
+    // },
 
-    myRequestLogger2: function (req, res, next) {
-        if (req.method == 'POST') {
-          console.log("RequestBody :: ", req.body);
-        }
-        return next();
-    },
+    // myRequestLogger2: function (req, res, next) {
+    //     if (req.method == 'POST') {
+    //       console.log("RequestBody :: ", req.body);
+    //     }
+    //     return next();
+    // },
 
 
   /***************************************************************************

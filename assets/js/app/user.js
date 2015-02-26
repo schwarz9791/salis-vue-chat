@@ -7,7 +7,8 @@ if ($('#account').length) {
       username: '',
       avatar: '',
       has_error: false,
-      flash: []
+      flash: [],
+      upload_progress: 0
     },
 
     computed: {
@@ -76,7 +77,7 @@ if ($('#account').length) {
         });
       },
 
-      setAvatar: function(e) {
+      updateAvatar: function(e) {
         var file = e.target.files[0];
         var _this = this;
         
@@ -129,23 +130,53 @@ if ($('#account').length) {
                 var blob = new Blob([buffer.buffer], { type: 'image/png' });
 
                 // FormData生成
-                var fd = new FormData();
-                fd.append('_csrf', _this.csrf);
-                fd.append('avatar', blob, 'avatar.png');
+                // var fd = new FormData();
+                // fd.append('_csrf', _this.csrf);
+                // fd.append('avatar', blob, 'avatar.png');
+
+                // var status_elem = document.getElementById("status");
+                // var url_elem = document.getElementById("avatar_url");
+                // var preview_elem = document.getElementById("avatar");
+                var s3upload = new S3Upload({
+                    blob: blob,
+                    s3_sign_put_url: '/sign_s3',
+                    onProgress: function(percent, message) {
+                      // status_elem.innerHTML = 'Upload progress: ' + percent + '% ' + message;
+                      _this.upload_progress = percent;
+                    },
+                    onFinishS3Put: function(public_url, fd) {
+                      setTimeout(function() { _this.upload_progress = 0; }, 1000);
+                      
+                      // status_elem.innerHTML = 'Upload completed. Uploaded to: '+ public_url;
+                      // url_elem.value = public_url;
+                      // preview_elem.innerHTML = '<img src="'+public_url+'" style="width:300px;" />';
+                      io.socket.post('/user/set_avatar/' + _this.id, {
+                        _csrf: _this.csrf,
+                        avatar: fd
+                      }, function (res) {
+                        if (res.status === 'error' ) return _this.flash.push({ notice: res.flash, status: 'alert-danger' });
+                        _this.flash.push({ notice: res.flash, status: 'alert-success' });
+                      });
+                    },
+                    onError: function(status) {
+                      // status_elem.innerHTML = 'Upload error: ' + status;
+                      _this.flash.push({ notice: 'Upload error: ' + status, status: 'alert-danger' });
+                    }
+                });
 
                 // xhrでFormDataを送信
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/user/set_avatar/' + _this.id, true);
-                xhr.withCredentials = true;
-                xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
-                xhr.onload = function(evt) {
-                  if (xhr.status == 200) {
-                    if (xhr.responseJSON) _this.flash.push({ notice: xhr.responseJSON.flash, status: 'alert-success' });
-                  } else {
-                    _this.flash.push({ notice: xhr.responseJSON ? xhr.responseJSON.error : xhr.statusText, status: 'alert-danger' });
-                  }
-                };
-                xhr.send(fd);
+                // var xhr = new XMLHttpRequest();
+                // xhr.open('POST', '/user/set_avatar/' + _this.id, true);
+                // xhr.withCredentials = true;
+                // xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+                // xhr.onload = function(evt) {
+                //   if (xhr.status == 200) {
+                //     if (xhr.responseJSON) _this.flash.push({ notice: xhr.responseJSON.flash, status: 'alert-success' });
+                //   } else {
+                //     _this.flash.push({ notice: xhr.responseJSON ? xhr.responseJSON.error : xhr.statusText, status: 'alert-danger' });
+                //   }
+                // };
+                // xhr.send(fd);
               }
             }, 0);
           }
