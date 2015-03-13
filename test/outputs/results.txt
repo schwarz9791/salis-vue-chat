@@ -1,0 +1,34 @@
+
+[0m[0m
+passport module initialize
+[32minfo: [39m
+[32minfo: [39m               .-..-.
+[32minfo: [39m
+[32minfo: [39m   Sails              <|    .-..-.
+[32minfo: [39m   v0.11.0             |\
+[32minfo: [39m                      /|.\
+[32minfo: [39m                     / || \
+[32minfo: [39m                   ,'  |'  \
+[32minfo: [39m                .-'.-==|/_--'
+[32minfo: [39m                `--'-------' 
+[32minfo: [39m   __---___--___---___--___---___--___
+[32minfo: [39m ____---___--___---___--___---___--___-__
+[32minfo: [39m
+[32minfo: [39mServer lifted in `/Users/schwarz/sails-vue-chat`
+[32minfo: [39mTo see your app, visit [4mhttp://localhost:1337[24m
+[32minfo: [39mTo shut down Sails, press <CTRL> + C at any time.
+[37m[39m
+[37m[39m
+[0m  User[0m
+[0m    #beforeCreate[0m
+[2K[0G    [32m  ✓[0m[90m パスワードを渡すと暗号化されること [0m[31m(106ms)[0m
+[0m    #beforeUpdate[0m
+Password updated
+[2K[0G    [32m  ✓[0m[90m パスワードを渡すと暗号化されること [0m[31m(118ms)[0m
+[0m    #checkPassword[0m
+{ password: '$2a$10$r/jDc//yJgv0Qsml7JbLhOdChOcJri6zq/F6xouRGu//PLXqeKR.i' }
+[2K[0G    [32m  ✓[0m[90m パスワードが有効であればerrorがnullであること [0m[31m(106ms)[0m
+
+
+[92m [0m[32m 3 passing[0m[90m (6s)[0m
+
