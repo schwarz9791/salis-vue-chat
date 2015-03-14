@@ -53,6 +53,10 @@ if ($('#chat').length) {
         switch (event.verb) {
           case 'created': // モデルに新たなデータが追加された
             _this.count++;
+            io.socket.get('/user/' + event.data.owner, function (res, JWR) {
+              event.data.owner = res;
+              _this.messages.unshift(event.data);
+            });
             break;
           case 'destroyed': // モデルからデータが削除された
             _this.count--;
@@ -71,7 +75,6 @@ if ($('#chat').length) {
         // サーバに POST /message としてリクエストする
         io.socket.post('/message', { message: this.newMessage, _csrf: this.csrf }, function (res, JWR) {
           if (res.error) return console.error(res.error);
-          _this.messages.unshift(res);
           _this.newMessage.body = '';
         });
       },
