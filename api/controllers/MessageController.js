@@ -37,15 +37,16 @@ module.exports = {
     User.findOne(req.session.passport.user)
     .exec(function(err, user) {
 
-      current_user = user;
+      current_user = user.id;
       if (!current_user) return res.forbidden();
       
       Message.create({body: body, owner: current_user})
       .exec(function(err, message) {
-        if (err) return res.serverError();
-        message.owner = current_user;
+        if (err) return res.serverError()
         Message.publishCreate(message);
+        message.owner = user;
         res.json(message);
+        
       });
     });
     
